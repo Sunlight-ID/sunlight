@@ -1,0 +1,1562 @@
+{
+  "format": "crisis-web",
+  "version": 1,
+  "exported": "2026-11-13T12:00:00Z",
+  "topics": {
+    "climate-change": {
+      "title": "Climate change",
+      "summary": "The planet is heating because of greenhouse gases from burning coal, oil and gas, and from changes in how land is used. The basic science is not in doubt. The live questions are how fast emissions can fall and how the costs are shared.",
+      "x": 500,
+      "y": 178,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Human activity has caused the global warming seen since the industrial era: about 1.1°C by 2011–2020, compared with 1850–1900.",
+          "strength": "settled",
+          "note": "The IPCC, which reviews the whole field for the world's governments, calls this unequivocal. A separate review of more than 88,000 climate papers found over 99% agreement.",
+          "sources": [
+            "ipcc-2023",
+            "lynas-2021"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Every additional increment of warming brings greater risks, losses and damage.",
+          "strength": "settled",
+          "note": "The IPCC gives this its top confidence rating.",
+          "sources": [
+            "ipcc-2023"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Countries' climate pledges as they stood in late 2021 make it likely that warming will pass 1.5°C this century.",
+          "strength": "strong",
+          "note": "This is a projection, so the outcome depends on what governments do next. The assessment behind it is robust.",
+          "sources": [
+            "ipcc-2023"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "Can rich economies keep growing while cutting emissions fast enough?",
+          "agreed": "Emissions have to fall quickly. In 18 developed economies they did fall between 2005 and 2015. The dispute is whether that can happen fast enough, everywhere, while economies keep growing.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Green growth is unlikely to be enough",
+              "text": "Hickel and Kallis review past trends and model projections. They conclude that cutting carbon fast enough to stay under 1.5°C or 2°C while GDP keeps growing is highly unlikely, and that there is no evidence resource use can be separated from growth at a global scale.",
+              "sources": [
+                "hickel-2020"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Cuts alongside growth are already happening",
+              "text": "Le Quéré and colleagues show emissions falling in 18 developed economies as renewables displaced fossil fuels and energy use dropped. They add that slower economic growth explains part of the fall, and that much stronger policy is still needed.",
+              "sources": [
+                "lequere-2019"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "ecological-breakdown": {
+      "title": "Ecological breakdown",
+      "summary": "Wild species, and the ecosystems people rely on for food, water and a stable climate, are declining worldwide. Climate change is one cause among several. The biggest causes so far are how we use land and sea, and how much we take from them.",
+      "x": 370,
+      "y": 46,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Around one million animal and plant species are threatened with extinction, many within decades.",
+          "strength": "strong",
+          "note": "From the IPBES global assessment. The figure is an estimate scaled up from the groups studied in detail. The insect share is the least certain part.",
+          "sources": [
+            "ipbes-2019"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "The main direct causes of nature loss, in order of impact so far, are: changes in land and sea use, direct exploitation of wildlife, climate change, pollution, and invasive species.",
+          "strength": "strong",
+          "note": "This ranking comes from the IPBES global assessment, whose summary was approved by its member governments.",
+          "sources": [
+            "ipbes-2019"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Seven of the nine planetary boundaries that scientists use to track Earth's stability have been crossed. Ocean acidification joined the list in 2025.",
+          "strength": "strong",
+          "note": "The measurements behind each boundary are solid. Where exactly to draw each safe limit involves scientific judgement, so read the count as a well-supported indicator, not a precise threshold.",
+          "sources": [
+            "phc-2025",
+            "richardson-2023"
+          ]
+        }
+      ],
+      "debates": []
+    },
+    "ai-development": {
+      "title": "AI development",
+      "summary": "General-purpose AI systems are improving quickly and being built into work, media and public services. Both the benefits and the harms are real, and much of the evidence is still coming in.",
+      "x": 500,
+      "y": 442,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "General-purpose AI keeps getting more capable, most visibly in mathematics, coding and working on tasks without supervision.",
+          "strength": "strong",
+          "note": "A finding of the International AI Safety Report 2026, written by more than 100 experts and backed by over 30 countries and international organisations.",
+          "sources": [
+            "aisr-2026"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Today's systems still fail in unpredictable ways, such as inventing facts or writing faulty code, and no current method removes these failures completely.",
+          "strength": "strong",
+          "note": "Same report. Documented across many systems.",
+          "sources": [
+            "aisr-2026"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "So far there is no significant effect on overall employment, though there are early signs of impact on junior workers in the jobs most exposed to AI.",
+          "strength": "emerging",
+          "note": "The data cover only a few years, and effects may take time to show.",
+          "sources": [
+            "aisr-2026"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "How much electricity will AI need?",
+          "agreed": "Data centres used about 415 TWh in 2024, around 1.5% of the world's electricity, and demand is rising.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Central projection",
+              "text": "The IEA's base case has data-centre demand more than doubling to about 945 TWh by 2030 and reaching roughly 1,200 TWh by 2035.",
+              "sources": [
+                "iea-2025"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "A wide range is possible",
+              "text": "Across the IEA's scenarios, demand in 2035 runs from 700 to 1,700 TWh. Faster gains in chip and model efficiency pull it down. A faster AI build-out pushes it up.",
+              "sources": [
+                "iea-2025"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "authoritarianism-far-right": {
+      "title": "Authoritarianism and the far right",
+      "summary": "Many researchers report that elected governments in a growing number of countries are weakening courts, the press and civil rights, and that far-right parties have gained ground in many democracies. How large the shift is, and what to call it, are both debated.",
+      "x": 890,
+      "y": 310,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "By the V-Dem Institute's count, 74% of the world's people lived in autocracies at the end of 2025, up from 50% in 2005. Only 7% lived in liberal democracies.",
+          "strength": "strong",
+          "note": "V-Dem is the largest academic democracy dataset. Its scores rest partly on expert judgement, which is the subject of a debate below.",
+          "sources": [
+            "vdem-2026"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "44 countries were moving toward autocracy in 2025. They are home to 41% of the world's population, a record for the current wave.",
+          "strength": "strong",
+          "note": "Same dataset, same caveat.",
+          "sources": [
+            "vdem-2026"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Since around 2000, far-right parties and ideas have moved from the margins into the mainstream of many democracies.",
+          "strength": "strong",
+          "note": "The central argument of Mudde's survey of the research on far-right parties.",
+          "sources": [
+            "mudde-2019"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "How much democratic decline is really happening?",
+          "agreed": "Some countries have clearly become less democratic. The dispute is about the size of the global trend.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Expert-coded indices show a large decline",
+              "text": "V-Dem's 2026 report finds democracy for the average person back at 1978 levels. The V-Dem team argue that their method limits expert bias, and that gradual erosion can only be detected with expert judgement.",
+              "sources": [
+                "vdem-2026",
+                "knutsen-2024"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Objective indicators show little decline",
+              "text": "Little and Meng look at measures that need no judgement, such as whether incumbents lose elections. Over the decade they studied they find little evidence of global decline. They suggest expert coders may be swayed by the mood of the times, while accepting that erosion could be happening in ways such measures miss.",
+              "sources": [
+                "little-2024"
+              ]
+            }
+          ]
+        },
+        {
+          "id": "d2",
+          "question": "Is \"fascism\" the right word for today's far right?",
+          "agreed": "Scholars on both sides describe today's far right as nativist and authoritarian. The dispute is whether the historical term fits, and whether using it helps.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Mostly no: \"radical right\" is more accurate",
+              "text": "Mudde separates the extreme right, which rejects democracy outright and includes fascism, from the radical right, which accepts elections but opposes liberal-democratic limits such as minority rights and independent courts. On this view most successful far-right parties today are radical right, and calling them fascist hides how they work.",
+              "sources": [
+                "mudde-2019"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Sometimes yes: judge movements by what they do",
+              "text": "Paxton defines fascism by behaviour, not doctrine: a mass nationalist movement fixated on national decline and victimhood that abandons democratic liberties and turns to violence against its chosen enemies. Scholars who take this approach argue the label applies wherever that pattern appears.",
+              "sources": [
+                "paxton-2004"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "misinformation": {
+      "title": "Misinformation",
+      "summary": "False and misleading claims spread through social media, broadcast media and politics. How common they are, and how much they change what people believe or do, are argued over by researchers.",
+      "x": 370,
+      "y": 310,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "On Twitter between 2006 and 2017, fact-checked false stories spread farther, faster and to more people than fact-checked true ones. People, not bots, drove the difference.",
+          "strength": "strong",
+          "note": "One large study of about 126,000 stories on one platform. Whether it holds for online information in general is disputed; see the debate below.",
+          "sources": [
+            "vosoughi-2018"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "People are more often uninformed than misinformed, and surveys tend to overstate how many hold false beliefs.",
+          "strength": "contested",
+          "note": "Argued by Altay, Berriche and Acerbi in a review of the field. Other researchers treat misinformation as a larger driver of false belief.",
+          "sources": [
+            "altay-2023"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "Does falsehood really spread faster than truth online?",
+          "agreed": "In the Twitter dataset, false stories out-travelled true ones. The question is what that says about the wider information environment.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Yes, and human psychology explains it",
+              "text": "Vosoughi, Roy and Aral found the effect in every category of news, strongest for politics. False stories were more novel and provoked surprise and disgust, which they suggest makes people more likely to share them.",
+              "sources": [
+                "vosoughi-2018"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "It depends on what you count",
+              "text": "Altay, Berriche and Acerbi argue that results change with how misinformation is defined, that most of what circulates online is entertainment and not news or falsehood, and that misinformation mostly reaches people who already agree with it.",
+              "sources": [
+                "altay-2023"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "economic-inequality": {
+      "title": "Economic inequality and concentrated wealth",
+      "summary": "Income and, even more, wealth are concentrated among a small share of the world's people. How concentrated is measured in different ways, and the methods are argued over. The pattern matters for who causes emissions, who bears the costs of change, and possibly for how people vote.",
+      "x": 890,
+      "y": 46,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "The richest 10% of people own about three-quarters of the world's wealth. The poorer half own about 2%.",
+          "strength": "strong",
+          "note": "From the World Inequality Report 2026, built from tax records, surveys and national accounts. Wealth at the very top is hard to observe, so these are estimates.",
+          "sources": [
+            "wir-2026"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Income is less concentrated than wealth but still very unequal. The top 10% receive about 53% of global income and the poorer half about 8%.",
+          "strength": "strong",
+          "note": "Same report.",
+          "sources": [
+            "wir-2026"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Fewer than 60,000 people, the richest 0.001%, hold about three times as much wealth as the poorer half of humanity combined. Their share has grown from almost 4% of global wealth in 1995 to more than 6%.",
+          "strength": "strong",
+          "note": "Same report. Estimates for so small a group carry the widest margins.",
+          "sources": [
+            "wir-2026"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "Has the top 1%'s share of US income really surged?",
+          "agreed": "Income reported on US tax returns has become much more concentrated at the top since 1980. The dispute is over income that tax returns miss, and who it belongs to.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "The rise is much smaller than usually claimed",
+              "text": "Auten and Splinter adjust tax data for changes in tax rules, household structure and missing income. They find the top 1%'s share of pre-tax income rose 4.4 percentage points between 1979 and 2019, and only 1.4 points after taxes and transfers.",
+              "sources": [
+                "auten-2024"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "The rise is large, and the lower estimate rests on doubtful assumptions",
+              "text": "Piketty, Saez and Zucman reply that the lower figures depend on how untaxed business and capital income is shared out. They argue that once those assumptions are checked against other evidence, the estimates come back close to their own, which show a large rise.",
+              "sources": [
+                "psz-2024"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "climate-obstruction": {
+      "title": "Organised climate obstruction",
+      "summary": "Some fossil fuel companies and allied organisations have worked to cast doubt on climate science and to slow climate policy. The best-documented case is ExxonMobil, whose own scientists predicted warming accurately while its public messaging stressed uncertainty.",
+      "x": 110,
+      "y": 310,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Between 1977 and 2003, ExxonMobil's own scientists made global warming projections that proved accurate: 63–83% of them matched the warming later observed.",
+          "strength": "strong",
+          "note": "A peer-reviewed analysis in Science of every known projection in the company's internal documents and published papers. The projections were as skilful as those of academic and government models.",
+          "sources": [
+            "supran-2023"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "ExxonMobil said different things to different audiences. About four in five of its scientific papers and internal documents accepted that climate change is real and human-caused, while 81% of its newspaper advertorials expressed doubt.",
+          "strength": "strong",
+          "note": "A content analysis of 187 company documents from 1977 to 2014. Coding text involves judgement, which the authors acknowledge.",
+          "sources": [
+            "supran-2017"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "In the United States, 91 organisations opposing climate action had a combined income of about $900 million a year between 2003 and 2010. A growing share of their foundation funding came through a donor fund whose givers cannot be traced.",
+          "strength": "strong",
+          "note": "From tax filings. The figure is these organisations' total income for all their work, not only climate, so it is an upper bound on climate-related spending.",
+          "sources": [
+            "brulle-2014"
+          ]
+        }
+      ],
+      "debates": []
+    },
+    "polarisation-trust": {
+      "title": "Polarisation and trust in institutions",
+      "summary": "In some countries, supporters of opposing parties have come to dislike and distrust each other more, and in many countries fewer than half of people trust their national government. The picture differs sharply from country to country, and what exactly has polarised is debated.",
+      "x": 760,
+      "y": 442,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Hostility between supporters of opposing parties has not risen everywhere. Across twelve wealthy democracies over four decades it rose most in the United States, rose less in five others and fell in six.",
+          "strength": "strong",
+          "note": "Built from 149 election surveys. Question wording varies between countries and years, which limits precision.",
+          "sources": [
+            "boxell-2024"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Across 30 OECD countries in 2023, 39% of people had high or moderately high trust in their national government and 44% had low or no trust.",
+          "strength": "strong",
+          "note": "From a survey of nearly 60,000 people. Trust in the police, courts and civil service was higher than trust in national government.",
+          "sources": [
+            "oecd-2024"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "Is polarisation about policy views or about feelings?",
+          "agreed": "In the United States, politicians and party activists have moved further apart, and partisans' dislike of the other side has grown. The dispute is over what has happened to ordinary voters' views.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Mostly feelings",
+              "text": "Iyengar and colleagues describe a divide rooted in party as a social identity: ordinary Americans increasingly dislike and distrust people from the other party. They note this can grow even while differences over policy shrink.",
+              "sources": [
+                "iyengar-2019"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Most voters are still moderate",
+              "text": "Fiorina and colleagues argue that polarisation is largely confined to politicians and activists. On this view most Americans hold moderate views, and they only appear polarised because they are offered more extreme choices.",
+              "sources": [
+                "fiorina-2005"
+              ]
+            },
+            {
+              "id": "p3",
+              "label": "Policy views have polarised too",
+              "text": "Abramowitz and Saunders use election surveys to argue that Democratic and Republican voters' beliefs have grown much further apart since the 1970s, most of all among the best informed and most politically active.",
+              "sources": [
+                "abramowitz-2008"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "platform-media-power": {
+      "title": "Platform and media power",
+      "summary": "Social media platforms now carry much of the political news people see, and a handful of companies decide how it is ranked. Researchers have begun to test how far the design of those feeds shapes what people believe, with mixed results.",
+      "x": 370,
+      "y": 574,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "On Facebook during the 2020 US election, audiences for political news were highly segregated by ideology. Most content that fact-checkers rated false circulated among sources read almost entirely by conservatives.",
+          "strength": "strong",
+          "note": "Based on aggregated data for 208 million US users, in a study run with Meta. It covers one platform, one country and one election.",
+          "sources": [
+            "gonzalez-2023"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Switching users from Facebook's and Instagram's ranking algorithms to a newest-first feed cut the time they spent on the platforms and changed what they saw, but did not measurably change their political attitudes over three months.",
+          "strength": "strong",
+          "note": "A randomised experiment during the 2020 US election, run with Meta's cooperation. It cannot show what years of exposure do.",
+          "sources": [
+            "guess-2023"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "Do social media platforms make people more polarised?",
+          "agreed": "Platforms change what people see and how long they spend looking. The dispute is whether that changes their political attitudes.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Leaving the platform reduces polarisation",
+              "text": "Allcott and colleagues paid US users to deactivate Facebook for four weeks before the 2018 midterm elections. A combined measure of political polarisation fell, as did knowledge of the news. Hostility towards the other party did not change significantly.",
+              "sources": [
+                "allcott-2020"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Changing the algorithm does not",
+              "text": "Guess and colleagues found that replacing the ranking algorithm with a newest-first feed left polarisation, political knowledge and other attitudes unchanged over three months.",
+              "sources": [
+                "guess-2023"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "surveillance-digital-rights": {
+      "title": "Surveillance and digital rights",
+      "summary": "Governments of every kind now use digital tools to watch and identify people, and many restrict what can be said and seen online. The same technologies have lawful uses, so the questions are about limits and oversight.",
+      "x": 890,
+      "y": 574,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Global internet freedom has declined for 15 years in a row. In the latest assessment, conditions worsened in 28 of 72 countries and improved in 17.",
+          "strength": "strong",
+          "note": "Freedom House scores countries on access, censorship and violations of users' rights. The scores rest on expert assessment, so the method involves judgement.",
+          "sources": [
+            "fotn-2025"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "By 2019 at least 75 of 176 countries were using AI for surveillance, including facial recognition in 64. Democracies were among the main users: about half of advanced democracies had deployed these systems.",
+          "strength": "strong",
+          "note": "Compiled from public reporting, so it probably undercounts. The index does not separate lawful from unlawful use.",
+          "sources": [
+            "feldstein-2019"
+          ]
+        }
+      ],
+      "debates": []
+    },
+    "migration-displacement": {
+      "title": "Migration and displacement",
+      "summary": "More people are displaced from their homes than at any time on record. Most stay inside their own country or in a neighbouring one. War and violence are the main causes of lasting displacement; disasters force many more short-term moves.",
+      "x": 760,
+      "y": 178,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "At the end of 2024, 123.2 million people worldwide were forcibly displaced by conflict, persecution or violence.",
+          "strength": "strong",
+          "note": "UNHCR's count, drawn from governments, UN agencies and partners. It rose by about 7 million in a year.",
+          "sources": [
+            "unhcr-2025"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Most displaced people do not travel far. About 60% are displaced inside their own country, and 73% of refugees are hosted in low- and middle-income countries.",
+          "strength": "strong",
+          "note": "73.5 million of the 123.2 million were internally displaced. Two-thirds of refugees live in a country neighbouring their own.",
+          "sources": [
+            "unhcr-2025"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Disasters caused 45.8 million displacements inside countries in 2024, the most since records began in 2008.",
+          "strength": "strong",
+          "note": "A displacement is a movement, not a person, and many were planned evacuations. Most people returned home; about 9.8 million were still displaced by disasters at the end of the year.",
+          "sources": [
+            "idmc-2025"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "How many people will climate change force to move?",
+          "agreed": "Climate change affects people's livelihoods and where they can live. Most movement linked to it happens within countries.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Up to 216 million by 2050",
+              "text": "The World Bank's Groundswell model projects that, without action, up to 216 million people in six regions could move within their countries by 2050 because of water shortages, falling crop yields and rising seas. It presents this as a worst case that strong climate and development action could cut by up to 80%.",
+              "sources": [
+                "groundswell-2021"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Mass-migration forecasts are misleading",
+              "text": "Boas and colleagues argue that predictions of mass climate migration rest on simplistic assumptions and present migration as a security threat without a sound empirical basis. They call for research on how people actually move, stay and adapt.",
+              "sources": [
+                "boas-2019"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "food-water-systems": {
+      "title": "Food and water systems",
+      "summary": "The way the world grows and eats food drives a large share of both climate change and nature loss. At the same time hundreds of millions of people go hungry and billions lack safe water.",
+      "x": 630,
+      "y": 46,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "About 673 million people, roughly 8% of the world, faced hunger in 2024. The number fell slightly for a second year but rose in Africa and western Asia.",
+          "strength": "strong",
+          "note": "The UN agencies give a range of 638 to 720 million.",
+          "sources": [
+            "sofi-2025"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "2.6 billion people could not afford a healthy diet in 2024.",
+          "strength": "strong",
+          "note": "Same report. The global number has fallen since 2019 but has risen in low-income countries.",
+          "sources": [
+            "sofi-2025"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "2.1 billion people, one in four, lack safely managed drinking water.",
+          "strength": "strong",
+          "note": "The WHO and UNICEF monitoring programme defines this as water on the premises, available when needed and free from contamination.",
+          "sources": [
+            "jmp-2025"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "Can everyone eat a diet that is healthy for people and the planet?",
+          "agreed": "Food systems need to change to protect both health and the environment, and most diets today are far from what the EAT–Lancet Commission recommends.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Yes, with big changes to diets, waste and farming",
+              "text": "The EAT–Lancet Commission set out a mainly plant-based reference diet. It estimated that this diet, with better farming practices and much less food waste, could feed about 10 billion people in 2050 within environmental limits.",
+              "sources": [
+                "willett-2019"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Not at today's prices and incomes",
+              "text": "Hirvonen and colleagues priced the cheapest version of that diet in 159 countries at a median of $2.84 a day in 2011. That is more than the whole household income per person of at least 1.58 billion people, mostly in sub-Saharan Africa and South Asia.",
+              "sources": [
+                "hirvonen-2020"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "health-pandemics": {
+      "title": "Health and pandemics",
+      "summary": "Most new infectious diseases reach people from animals, and the conditions that favour this are spreading. Climate change adds direct harms to health, such as extreme heat. How people respond depends partly on what information they trust.",
+      "x": 240,
+      "y": 178,
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Of 335 infectious diseases that emerged in people between 1940 and 2004, about 60% came from animals, and about 72% of those came from wildlife.",
+          "strength": "strong",
+          "note": "A widely cited analysis in Nature. New diseases are more likely to be reported where there is more research, which the authors adjusted for.",
+          "sources": [
+            "jones-2008"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "An estimated 631,000 to 827,000 viruses not yet discovered in mammals and birds could be able to infect people.",
+          "strength": "emerging",
+          "note": "An expert estimate extrapolated from limited sampling, published in an IPBES workshop report that was peer-reviewed but not approved by member governments.",
+          "sources": [
+            "ipbes-2020"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "What kind of online content does most to reduce vaccination?",
+          "agreed": "Seeing false claims about vaccines makes people less willing to be vaccinated.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "Outright misinformation",
+              "text": "In a randomised trial in the UK and US in September 2020, Loomba and colleagues found that seeing recent misinformation about COVID-19 vaccines cut the share of people who would definitely accept a vaccine by 6.2 percentage points in the UK and 6.4 in the US.",
+              "sources": [
+                "loomba-2021"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "Misleading but not false stories, because far more people see them",
+              "text": "Allen, Watts and Rand found that content flagged as false was more persuasive per view but was rarely seen. They estimate that unflagged vaccine-sceptical content, much of it from mainstream news sources, did 46 times more to reduce vaccination intentions on Facebook.",
+              "sources": [
+                "allen-2024"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "links": {
+    "climate-ecology": {
+      "a": "climate-change",
+      "b": "ecological-breakdown",
+      "label": "Each makes the other worse",
+      "text": "Climate change is the third-largest direct cause of nature loss so far. In the other direction, land and ocean ecosystems absorb the equivalent of roughly 60% of human-caused emissions, so damaging them weakens a natural brake on warming.",
+      "strength": "strong",
+      "sources": [
+        "ipbes-2019"
+      ]
+    },
+    "ai-climate": {
+      "a": "ai-development",
+      "b": "climate-change",
+      "label": "Rising electricity demand",
+      "text": "Data centres used about 415 TWh of electricity in 2024, around 1.5% of the global total. The IEA projects this will more than double by 2030, with AI the main driver. That is about a tenth of the growth in world electricity demand, and the strain falls hardest on particular countries and local grids.",
+      "strength": "strong",
+      "sources": [
+        "iea-2025"
+      ]
+    },
+    "farright-climate": {
+      "a": "authoritarianism-far-right",
+      "b": "climate-change",
+      "label": "Hostility to climate policy",
+      "text": "Right-wing populist parties and their supporters tend to be sceptical of climate science and hostile to climate policy. A study of OECD countries from 2007 to 2018 found climate policy significantly weaker when these parties are in power. It found no clear effect on renewable energy policy.",
+      "strength": "strong",
+      "sources": [
+        "lockwood-2018",
+        "lockwood-2022"
+      ]
+    },
+    "misinfo-climate": {
+      "a": "misinformation",
+      "b": "climate-change",
+      "label": "The consensus gap",
+      "text": "More than 99% of peer-reviewed climate papers agree that humans are causing climate change. Yet a 2016 Pew survey cited in the same study found that only 27% of US adults thought almost all scientists agreed. This entry records the gap. Organised climate obstruction covers one documented source of public doubt.",
+      "strength": "strong",
+      "sources": [
+        "lynas-2021"
+      ]
+    },
+    "ai-misinfo": {
+      "a": "ai-development",
+      "b": "misinformation",
+      "label": "More convincing fakes",
+      "text": "AI-generated deepfakes are becoming more realistic and harder to spot, and in experiments AI-written content can shift people's beliefs. So far there is little evidence of AI content manipulating people at scale, though it is hard to detect and so hard to measure.",
+      "strength": "emerging",
+      "sources": [
+        "aisr-2026"
+      ]
+    },
+    "farright-misinfo": {
+      "a": "authoritarianism-far-right",
+      "b": "misinformation",
+      "label": "Control of information",
+      "text": "Censoring the media is among the most common tools of governments moving toward autocracy. V-Dem records it in 32 of the 44 countries currently autocratising.",
+      "strength": "strong",
+      "sources": [
+        "vdem-2026"
+      ]
+    },
+    "inequality-climate": {
+      "a": "economic-inequality",
+      "b": "climate-change",
+      "label": "Unequal emissions",
+      "text": "In 2019 the top 10% of emitters produced 48% of the world's greenhouse gas emissions and the bottom half produced 12%. Most of the gap is now between high and low emitters inside countries, not between countries.",
+      "strength": "strong",
+      "sources": [
+        "chancel-2022"
+      ]
+    },
+    "inequality-farright": {
+      "a": "economic-inequality",
+      "b": "authoritarianism-far-right",
+      "label": "Economic shocks and backlash",
+      "text": "Rodrik's review finds compelling evidence that economic shocks from globalisation, such as job losses from trade, have raised support for right-wing populists. It also finds that these shocks often work through culture and identity, and it leaves open how much of the story is economics and how much is culture.",
+      "strength": "contested",
+      "sources": [
+        "rodrik-2021"
+      ]
+    },
+    "obstruction-climate": {
+      "a": "climate-obstruction",
+      "b": "climate-change",
+      "label": "Accurate science, public doubt",
+      "text": "From the late 1970s ExxonMobil's scientists correctly projected warming of about 0.2°C per decade. The study's authors conclude that the company's public statements contradicted its own data, including by overstating how uncertain the science was.",
+      "strength": "strong",
+      "sources": [
+        "supran-2023"
+      ]
+    },
+    "obstruction-misinfo": {
+      "a": "climate-obstruction",
+      "b": "misinformation",
+      "label": "Doubt as a strategy",
+      "text": "Supran and Oreskes found that the more public an ExxonMobil document was, the more doubt it expressed about climate science. They conclude that the company misled the public.",
+      "strength": "strong",
+      "sources": [
+        "supran-2017"
+      ]
+    },
+    "polarisation-farright": {
+      "a": "polarisation-trust",
+      "b": "authoritarianism-far-right",
+      "label": "Party before principle",
+      "text": "In a US experiment, a candidate who took an undemocratic position lost only about 12% of their vote share. The stronger voters' partisanship and the further apart the candidates' policies, the less voters punished it.",
+      "strength": "strong",
+      "sources": [
+        "graham-2020"
+      ]
+    },
+    "polarisation-climate": {
+      "a": "polarisation-trust",
+      "b": "climate-change",
+      "label": "Politics predicts climate belief",
+      "text": "A meta-analysis of 25 polls and 171 studies across 56 countries found that political affiliation was the strongest demographic predictor of whether people accept that climate change is happening. Education, sex and experience of extreme weather mattered much less than values and political outlook.",
+      "strength": "strong",
+      "sources": [
+        "hornsey-2016"
+      ]
+    },
+    "polarisation-platform": {
+      "a": "polarisation-trust",
+      "b": "platform-media-power",
+      "label": "Do feeds divide us?",
+      "text": "Experiments point in different directions. Leaving Facebook for four weeks lowered one measure of polarisation, while changing how the feed is ranked did not shift attitudes. The debate under Platform and media power sets out both.",
+      "strength": "contested",
+      "sources": [
+        "allcott-2020",
+        "guess-2023"
+      ]
+    },
+    "platform-misinfo": {
+      "a": "platform-media-power",
+      "b": "misinformation",
+      "label": "Where false stories circulate",
+      "text": "Most content that fact-checkers rated false on Facebook in 2020 sat in one corner of the news ecosystem, with an almost entirely conservative audience. In a separate experiment, removing the ranking algorithm increased the amount of untrustworthy content users saw.",
+      "strength": "strong",
+      "sources": [
+        "gonzalez-2023",
+        "guess-2023"
+      ]
+    },
+    "surveillance-ai": {
+      "a": "surveillance-digital-rights",
+      "b": "ai-development",
+      "label": "AI-powered monitoring",
+      "text": "Facial recognition, smart-city platforms and predictive policing are the main AI surveillance tools governments use. As of 2019, Chinese companies supplied them to 63 countries and US companies to 32.",
+      "strength": "strong",
+      "sources": [
+        "feldstein-2019"
+      ]
+    },
+    "surveillance-farright": {
+      "a": "surveillance-digital-rights",
+      "b": "authoritarianism-far-right",
+      "label": "Tools for staying in power",
+      "text": "In China, local governments bought more facial-recognition technology after episodes of unrest, and the evidence suggests this reduced later protest. Freedom House reports that authoritarian governments have expanded surveillance and censorship, particularly around protests and elections.",
+      "strength": "strong",
+      "sources": [
+        "beraja-2023",
+        "fotn-2025"
+      ]
+    },
+    "migration-climate": {
+      "a": "migration-displacement",
+      "b": "climate-change",
+      "label": "Disasters displace millions",
+      "text": "Disasters, mostly storms and floods, caused a record 45.8 million displacements within countries in 2024. More than three-quarters of people displaced by conflict live in countries that are highly vulnerable to climate change.",
+      "strength": "strong",
+      "sources": [
+        "idmc-2025"
+      ]
+    },
+    "migration-farright": {
+      "a": "migration-displacement",
+      "b": "authoritarianism-far-right",
+      "label": "Arrivals and hostility",
+      "text": "On Greek islands that received large numbers of refugees in 2015–16, residents became lastingly more hostile to refugees, immigrants and Muslims, and more supportive of restrictive policies, than residents of similar islands nearby. The refugees were only passing through, so the authors conclude that exposure alone was enough.",
+      "strength": "strong",
+      "sources": [
+        "hangartner-2019"
+      ]
+    },
+    "food-climate": {
+      "a": "food-water-systems",
+      "b": "climate-change",
+      "label": "A third of emissions",
+      "text": "Food systems produced about 34% of human-caused greenhouse gas emissions in 2015. About 71% of that came from farming and land-use change, and the rest from processing, transport, packaging, retail and waste.",
+      "strength": "strong",
+      "sources": [
+        "crippa-2021"
+      ]
+    },
+    "food-ecology": {
+      "a": "food-water-systems",
+      "b": "ecological-breakdown",
+      "label": "Farming drives nature loss",
+      "text": "Agriculture is an identified threat to 24,000 of the 28,000 species assessed as at risk of extinction, about 86%. The Chatham House report behind this figure names three levers: changing diets, protecting land for nature, and farming in more nature-friendly ways.",
+      "strength": "strong",
+      "sources": [
+        "benton-2021"
+      ]
+    },
+    "health-ecology": {
+      "a": "health-pandemics",
+      "b": "ecological-breakdown",
+      "label": "Spillover from wildlife",
+      "text": "Land-use change, farm expansion and urban growth are linked to more than 30% of new infectious diseases, because they bring people, livestock and wildlife into closer contact.",
+      "strength": "strong",
+      "sources": [
+        "ipbes-2020",
+        "jones-2008"
+      ]
+    },
+    "health-misinfo": {
+      "a": "health-pandemics",
+      "b": "misinformation",
+      "label": "Vaccine doubts",
+      "text": "In a UK and US trial, seeing recent online misinformation about COVID-19 vaccines cut the share of people who would definitely accept one by about 6 percentage points. Later work suggests misleading mainstream stories did more damage overall because far more people saw them.",
+      "strength": "strong",
+      "sources": [
+        "loomba-2021",
+        "allen-2024"
+      ]
+    },
+    "health-climate": {
+      "a": "health-pandemics",
+      "b": "climate-change",
+      "label": "More deaths from heat",
+      "text": "The rate of heat-related deaths has risen 23% since the 1990s, to an average of about 546,000 deaths a year in 2012–2021.",
+      "strength": "strong",
+      "sources": [
+        "lancet-countdown-2025"
+      ]
+    }
+  },
+  "sources": {
+    "ipcc-2023": {
+      "short": "IPCC 2023",
+      "authors": "IPCC",
+      "year": "2023",
+      "title": "Climate Change 2023: Synthesis Report. Contribution of Working Groups I, II and III to the Sixth Assessment Report",
+      "venue": "Intergovernmental Panel on Climate Change, Geneva",
+      "url": "https://www.ipcc.ch/report/ar6/syr/",
+      "kind": "assessment",
+      "open": true,
+      "note": ""
+    },
+    "lynas-2021": {
+      "short": "Lynas et al. 2021",
+      "authors": "Lynas, M., Houlton, B. Z., & Perry, S.",
+      "year": "2021",
+      "title": "Greater than 99% consensus on human caused climate change in the peer-reviewed scientific literature",
+      "venue": "Environmental Research Letters, 16(11), 114005",
+      "url": "https://doi.org/10.1088/1748-9326/ac2966",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "hickel-2020": {
+      "short": "Hickel & Kallis 2020",
+      "authors": "Hickel, J., & Kallis, G.",
+      "year": "2020",
+      "title": "Is Green Growth Possible?",
+      "venue": "New Political Economy, 25(4), 469–486",
+      "url": "https://doi.org/10.1080/13563467.2019.1598964",
+      "kind": "article",
+      "open": false,
+      "note": "A free accepted manuscript is held in the Universitat Autònoma de Barcelona repository."
+    },
+    "lequere-2019": {
+      "short": "Le Quéré et al. 2019",
+      "authors": "Le Quéré, C., Korsbakken, J. I., Wilson, C., Tosun, J., Andrew, R., Andres, R. J., Canadell, J. G., Jordan, A., Peters, G. P., & van Vuuren, D. P.",
+      "year": "2019",
+      "title": "Drivers of declining CO2 emissions in 18 developed economies",
+      "venue": "Nature Climate Change, 9(3), 213–217",
+      "url": "https://doi.org/10.1038/s41558-019-0419-7",
+      "kind": "article",
+      "open": false,
+      "note": "A free accepted manuscript is held in the University of East Anglia repository."
+    },
+    "ipbes-2019": {
+      "short": "IPBES 2019",
+      "authors": "IPBES",
+      "year": "2019",
+      "title": "Global Assessment Report on Biodiversity and Ecosystem Services",
+      "venue": "Intergovernmental Science-Policy Platform on Biodiversity and Ecosystem Services, Bonn",
+      "url": "https://ipbes.net/global-assessment",
+      "kind": "assessment",
+      "open": true,
+      "note": ""
+    },
+    "phc-2025": {
+      "short": "Sakschewski, Caesar et al. 2025",
+      "authors": "Sakschewski, B., Caesar, L., et al.",
+      "year": "2025",
+      "title": "Planetary Health Check 2025: A Scientific Assessment of the State of the Planet",
+      "venue": "Planetary Boundaries Science, Potsdam Institute for Climate Impact Research",
+      "url": "https://doi.org/10.48485/PIK.2025.017",
+      "kind": "assessment",
+      "open": true,
+      "note": ""
+    },
+    "richardson-2023": {
+      "short": "Richardson et al. 2023",
+      "authors": "Richardson, K., et al.",
+      "year": "2023",
+      "title": "Earth beyond six of nine planetary boundaries",
+      "venue": "Science Advances, 9(37), eadh2458",
+      "url": "https://doi.org/10.1126/sciadv.adh2458",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "aisr-2026": {
+      "short": "Bengio et al. 2026",
+      "authors": "Bengio, Y., et al.",
+      "year": "2026",
+      "title": "International AI Safety Report 2026",
+      "venue": "DSIT research series 2026/001",
+      "url": "https://internationalaisafetyreport.org/publication/international-ai-safety-report-2026",
+      "kind": "assessment",
+      "open": true,
+      "note": ""
+    },
+    "iea-2025": {
+      "short": "IEA 2025",
+      "authors": "International Energy Agency",
+      "year": "2025",
+      "title": "Energy and AI",
+      "venue": "IEA, Paris",
+      "url": "https://www.iea.org/reports/energy-and-ai",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "vdem-2026": {
+      "short": "Nord et al. 2026",
+      "authors": "Nord, M., Altman, D., Fernandes, T., Good God, A., & Lindberg, S. I.",
+      "year": "2026",
+      "title": "Democracy Report 2026: Unraveling the Democratic Era?",
+      "venue": "V-Dem Institute, University of Gothenburg",
+      "url": "https://www.v-dem.net/documents/75/V-Dem_Institute_Democracy_Report_2026_lowres.pdf",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "little-2024": {
+      "short": "Little & Meng 2024",
+      "authors": "Little, A. T., & Meng, A.",
+      "year": "2024",
+      "title": "Measuring Democratic Backsliding",
+      "venue": "PS: Political Science & Politics, 57(2), 149–161",
+      "url": "https://doi.org/10.1017/S104909652300063X",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "knutsen-2024": {
+      "short": "Knutsen et al. 2024",
+      "authors": "Knutsen, C. H., Marquardt, K. L., Seim, B., Coppedge, M., Edgell, A. B., Medzihorsky, J., Pemstein, D., Teorell, J., Gerring, J., & Lindberg, S. I.",
+      "year": "2024",
+      "title": "Conceptual and Measurement Issues in Assessing Democratic Backsliding",
+      "venue": "PS: Political Science & Politics, 57(2), 162–177",
+      "url": "https://doi.org/10.1017/S104909652300077X",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "mudde-2019": {
+      "short": "Mudde 2019",
+      "authors": "Mudde, C.",
+      "year": "2019",
+      "title": "The Far Right Today",
+      "venue": "Polity Press, Cambridge",
+      "url": "",
+      "kind": "book",
+      "open": false,
+      "note": ""
+    },
+    "paxton-2004": {
+      "short": "Paxton 2004",
+      "authors": "Paxton, R. O.",
+      "year": "2004",
+      "title": "The Anatomy of Fascism",
+      "venue": "Alfred A. Knopf, New York",
+      "url": "",
+      "kind": "book",
+      "open": false,
+      "note": ""
+    },
+    "lockwood-2018": {
+      "short": "Lockwood 2018",
+      "authors": "Lockwood, M.",
+      "year": "2018",
+      "title": "Right-wing populism and the climate change agenda: exploring the linkages",
+      "venue": "Environmental Politics, 27(4), 712–732",
+      "url": "https://doi.org/10.1080/09644016.2018.1458411",
+      "kind": "article",
+      "open": false,
+      "note": "A free accepted manuscript is held in the University of Exeter repository."
+    },
+    "lockwood-2022": {
+      "short": "Lockwood & Lockwood 2022",
+      "authors": "Lockwood, B., & Lockwood, M.",
+      "year": "2022",
+      "title": "How do right-wing populist parties influence climate and renewable energy policies? Evidence from OECD countries",
+      "venue": "Global Environmental Politics, 22(3), 12–37",
+      "url": "https://doi.org/10.1162/glep_a_00659",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "vosoughi-2018": {
+      "short": "Vosoughi et al. 2018",
+      "authors": "Vosoughi, S., Roy, D., & Aral, S.",
+      "year": "2018",
+      "title": "The spread of true and false news online",
+      "venue": "Science, 359(6380), 1146–1151",
+      "url": "https://doi.org/10.1126/science.aap9559",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "altay-2023": {
+      "short": "Altay et al. 2023",
+      "authors": "Altay, S., Berriche, M., & Acerbi, A.",
+      "year": "2023",
+      "title": "Misinformation on Misinformation: Conceptual and Methodological Challenges",
+      "venue": "Social Media + Society, 9(1)",
+      "url": "https://doi.org/10.1177/20563051221150412",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "wir-2026": {
+      "short": "World Inequality Lab 2025",
+      "authors": "World Inequality Lab",
+      "year": "2025",
+      "title": "World Inequality Report 2026",
+      "venue": "World Inequality Lab, Paris School of Economics",
+      "url": "https://wir2026.wid.world/",
+      "kind": "report",
+      "open": true,
+      "note": "Published December 2025."
+    },
+    "chancel-2022": {
+      "short": "Chancel 2022",
+      "authors": "Chancel, L.",
+      "year": "2022",
+      "title": "Global carbon inequality over 1990–2019",
+      "venue": "Nature Sustainability, 5(11), 931–938",
+      "url": "https://doi.org/10.1038/s41893-022-00955-z",
+      "kind": "article",
+      "open": false,
+      "note": "A free preprint is available from the World Inequality Lab."
+    },
+    "auten-2024": {
+      "short": "Auten & Splinter 2024",
+      "authors": "Auten, G., & Splinter, D.",
+      "year": "2024",
+      "title": "Income Inequality in the United States: Using Tax Data to Measure Long-Term Trends",
+      "venue": "Journal of Political Economy, 132(7), 2179–2227",
+      "url": "https://doi.org/10.1086/728741",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "psz-2024": {
+      "short": "Piketty et al. 2024",
+      "authors": "Piketty, T., Saez, E., & Zucman, G.",
+      "year": "2024",
+      "title": "Income Inequality in the United States: A Comment",
+      "venue": "Working paper, 29 July 2024",
+      "url": "https://gabriel-zucman.eu/files/PSZ2024.pdf",
+      "kind": "other",
+      "open": true,
+      "note": "A working paper replying to Auten and Splinter. Not peer-reviewed."
+    },
+    "rodrik-2021": {
+      "short": "Rodrik 2021",
+      "authors": "Rodrik, D.",
+      "year": "2021",
+      "title": "Why Does Globalization Fuel Populism? Economics, Culture, and the Rise of Right-Wing Populism",
+      "venue": "Annual Review of Economics, 13, 133–170",
+      "url": "https://doi.org/10.1146/annurev-economics-070220-032416",
+      "kind": "article",
+      "open": false,
+      "note": "A free version is available as NBER Working Paper 27526."
+    },
+    "supran-2023": {
+      "short": "Supran et al. 2023",
+      "authors": "Supran, G., Rahmstorf, S., & Oreskes, N.",
+      "year": "2023",
+      "title": "Assessing ExxonMobil's global warming projections",
+      "venue": "Science, 379(6628), eabk0063",
+      "url": "https://doi.org/10.1126/science.abk0063",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "supran-2017": {
+      "short": "Supran & Oreskes 2017",
+      "authors": "Supran, G., & Oreskes, N.",
+      "year": "2017",
+      "title": "Assessing ExxonMobil's climate change communications (1977–2014)",
+      "venue": "Environmental Research Letters, 12(8), 084019",
+      "url": "https://doi.org/10.1088/1748-9326/aa815f",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "brulle-2014": {
+      "short": "Brulle 2014",
+      "authors": "Brulle, R. J.",
+      "year": "2014",
+      "title": "Institutionalizing delay: foundation funding and the creation of U.S. climate change counter-movement organizations",
+      "venue": "Climatic Change, 122(4), 681–694",
+      "url": "https://doi.org/10.1007/s10584-013-1018-7",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "boxell-2024": {
+      "short": "Boxell et al. 2024",
+      "authors": "Boxell, L., Gentzkow, M., & Shapiro, J. M.",
+      "year": "2024",
+      "title": "Cross-Country Trends in Affective Polarization",
+      "venue": "Review of Economics and Statistics, 106(2), 557–565",
+      "url": "https://doi.org/10.1162/rest_a_01160",
+      "kind": "article",
+      "open": false,
+      "note": "A free version is available as NBER Working Paper 26669."
+    },
+    "oecd-2024": {
+      "short": "OECD 2024",
+      "authors": "OECD",
+      "year": "2024",
+      "title": "OECD Survey on Drivers of Trust in Public Institutions – 2024 Results: Building Trust in a Complex Policy Environment",
+      "venue": "OECD Publishing, Paris",
+      "url": "https://doi.org/10.1787/9a20554b-en",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "iyengar-2019": {
+      "short": "Iyengar et al. 2019",
+      "authors": "Iyengar, S., Lelkes, Y., Levendusky, M., Malhotra, N., & Westwood, S. J.",
+      "year": "2019",
+      "title": "The Origins and Consequences of Affective Polarization in the United States",
+      "venue": "Annual Review of Political Science, 22, 129–146",
+      "url": "https://doi.org/10.1146/annurev-polisci-051117-073034",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "fiorina-2005": {
+      "short": "Fiorina et al. 2005",
+      "authors": "Fiorina, M. P., Abrams, S. J., & Pope, J. C.",
+      "year": "2005",
+      "title": "Culture War? The Myth of a Polarized America",
+      "venue": "Pearson Longman, New York",
+      "url": "",
+      "kind": "book",
+      "open": false,
+      "note": ""
+    },
+    "abramowitz-2008": {
+      "short": "Abramowitz & Saunders 2008",
+      "authors": "Abramowitz, A. I., & Saunders, K. L.",
+      "year": "2008",
+      "title": "Is Polarization a Myth?",
+      "venue": "The Journal of Politics, 70(2), 542–555",
+      "url": "https://doi.org/10.1017/S0022381608080493",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "graham-2020": {
+      "short": "Graham & Svolik 2020",
+      "authors": "Graham, M. H., & Svolik, M. W.",
+      "year": "2020",
+      "title": "Democracy in America? Partisanship, Polarization, and the Robustness of Support for Democracy in the United States",
+      "venue": "American Political Science Review, 114(2), 392–409",
+      "url": "https://doi.org/10.1017/S0003055420000052",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "hornsey-2016": {
+      "short": "Hornsey et al. 2016",
+      "authors": "Hornsey, M. J., Harris, E. A., Bain, P. G., & Fielding, K. S.",
+      "year": "2016",
+      "title": "Meta-analyses of the determinants and outcomes of belief in climate change",
+      "venue": "Nature Climate Change, 6(6), 622–626",
+      "url": "https://doi.org/10.1038/nclimate2943",
+      "kind": "article",
+      "open": false,
+      "note": "A free accepted manuscript is held in the Queensland University of Technology repository."
+    },
+    "guess-2023": {
+      "short": "Guess et al. 2023",
+      "authors": "Guess, A. M., Malhotra, N., Pan, J., Barberá, P., Allcott, H., et al.",
+      "year": "2023",
+      "title": "How do social media feed algorithms affect attitudes and behavior in an election campaign?",
+      "venue": "Science, 381(6656), 398–404",
+      "url": "https://doi.org/10.1126/science.abp9364",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "allcott-2020": {
+      "short": "Allcott et al. 2020",
+      "authors": "Allcott, H., Braghieri, L., Eichmeyer, S., & Gentzkow, M.",
+      "year": "2020",
+      "title": "The Welfare Effects of Social Media",
+      "venue": "American Economic Review, 110(3), 629–676",
+      "url": "https://doi.org/10.1257/aer.20190658",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "gonzalez-2023": {
+      "short": "González-Bailón et al. 2023",
+      "authors": "González-Bailón, S., Lazer, D., Barberá, P., Zhang, M., Allcott, H., et al.",
+      "year": "2023",
+      "title": "Asymmetric ideological segregation in exposure to political news on Facebook",
+      "venue": "Science, 381(6656), 392–398",
+      "url": "https://doi.org/10.1126/science.ade7138",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "feldstein-2019": {
+      "short": "Feldstein 2019",
+      "authors": "Feldstein, S.",
+      "year": "2019",
+      "title": "The Global Expansion of AI Surveillance",
+      "venue": "Carnegie Endowment for International Peace, Washington DC",
+      "url": "https://carnegieendowment.org/research/2019/09/the-global-expansion-of-ai-surveillance",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "fotn-2025": {
+      "short": "Vesteinsson & Baker 2025",
+      "authors": "Vesteinsson, K., & Baker, G.",
+      "year": "2025",
+      "title": "Freedom on the Net 2025: An Uncertain Future for the Global Internet",
+      "venue": "Freedom House, Washington DC",
+      "url": "https://freedomhouse.org/node/7617",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "beraja-2023": {
+      "short": "Beraja et al. 2023",
+      "authors": "Beraja, M., Kao, A., Yang, D. Y., & Yuchtman, N.",
+      "year": "2023",
+      "title": "AI-tocracy",
+      "venue": "Quarterly Journal of Economics, 138(3), 1349–1402",
+      "url": "https://doi.org/10.1093/qje/qjad012",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "unhcr-2025": {
+      "short": "UNHCR 2025",
+      "authors": "UNHCR",
+      "year": "2025",
+      "title": "Global Trends: Forced Displacement in 2024",
+      "venue": "United Nations High Commissioner for Refugees, Geneva",
+      "url": "https://www.unhcr.org/global-trends-report-2024",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "idmc-2025": {
+      "short": "IDMC 2025",
+      "authors": "Internal Displacement Monitoring Centre",
+      "year": "2025",
+      "title": "Global Report on Internal Displacement 2025",
+      "venue": "IDMC, Geneva",
+      "url": "https://doi.org/10.55363/IDMC.XTGW2833",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "groundswell-2021": {
+      "short": "Clement et al. 2021",
+      "authors": "Clement, V., Rigaud, K. K., de Sherbinin, A., Jones, B., Adamo, S., Schewe, J., Sadiq, N., & Shabahat, E.",
+      "year": "2021",
+      "title": "Groundswell Part 2: Acting on Internal Climate Migration",
+      "venue": "World Bank, Washington DC",
+      "url": "",
+      "kind": "report",
+      "open": true,
+      "note": "Free from the World Bank Open Knowledge Repository; search for the title."
+    },
+    "boas-2019": {
+      "short": "Boas et al. 2019",
+      "authors": "Boas, I., Farbotko, C., Adams, H., Sterly, H., Bush, S., van der Geest, K., et al.",
+      "year": "2019",
+      "title": "Climate migration myths",
+      "venue": "Nature Climate Change, 9(12), 901–903",
+      "url": "https://doi.org/10.1038/s41558-019-0633-3",
+      "kind": "article",
+      "open": false,
+      "note": "A free accepted manuscript is held in the Lancaster University repository."
+    },
+    "hangartner-2019": {
+      "short": "Hangartner et al. 2019",
+      "authors": "Hangartner, D., Dinas, E., Marbach, M., Matakos, K., & Xefteris, D.",
+      "year": "2019",
+      "title": "Does Exposure to the Refugee Crisis Make Natives More Hostile?",
+      "venue": "American Political Science Review, 113(2), 442–455",
+      "url": "https://doi.org/10.1017/S0003055418000813",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "sofi-2025": {
+      "short": "FAO et al. 2025",
+      "authors": "FAO, IFAD, UNICEF, WFP, & WHO",
+      "year": "2025",
+      "title": "The State of Food Security and Nutrition in the World 2025: Addressing High Food Price Inflation for Food Security and Nutrition",
+      "venue": "Food and Agriculture Organization of the United Nations, Rome",
+      "url": "https://data.unicef.org/resources/sofi-2025/",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "jmp-2025": {
+      "short": "WHO & UNICEF 2025",
+      "authors": "WHO, & UNICEF",
+      "year": "2025",
+      "title": "Progress on Household Drinking Water, Sanitation and Hygiene 2000–2024: Special Focus on Inequalities",
+      "venue": "WHO/UNICEF Joint Monitoring Programme",
+      "url": "https://data.unicef.org/resources/jmp-report-2025/",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "crippa-2021": {
+      "short": "Crippa et al. 2021",
+      "authors": "Crippa, M., Solazzo, E., Guizzardi, D., Monforti-Ferrario, F., Tubiello, F. N., & Leip, A.",
+      "year": "2021",
+      "title": "Food systems are responsible for a third of global anthropogenic GHG emissions",
+      "venue": "Nature Food, 2(3), 198–209",
+      "url": "https://doi.org/10.1038/s43016-021-00225-9",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "benton-2021": {
+      "short": "Benton et al. 2021",
+      "authors": "Benton, T. G., et al.",
+      "year": "2021",
+      "title": "Food System Impacts on Biodiversity Loss: Three Levers for Food System Transformation in Support of Nature",
+      "venue": "Chatham House, London",
+      "url": "",
+      "kind": "report",
+      "open": true,
+      "note": "Free from the Chatham House website; search for the title. Produced with UNEP and Compassion in World Farming."
+    },
+    "willett-2019": {
+      "short": "Willett et al. 2019",
+      "authors": "Willett, W., Rockström, J., Loken, B., Springmann, M., et al.",
+      "year": "2019",
+      "title": "Food in the Anthropocene: the EAT–Lancet Commission on healthy diets from sustainable food systems",
+      "venue": "The Lancet, 393(10170), 447–492",
+      "url": "https://doi.org/10.1016/S0140-6736(18)31788-4",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "hirvonen-2020": {
+      "short": "Hirvonen et al. 2020",
+      "authors": "Hirvonen, K., Bai, Y., Headey, D., & Masters, W. A.",
+      "year": "2020",
+      "title": "Affordability of the EAT–Lancet reference diet: a global analysis",
+      "venue": "The Lancet Global Health, 8(1), e59–e66",
+      "url": "https://doi.org/10.1016/S2214-109X(19)30447-4",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "jones-2008": {
+      "short": "Jones et al. 2008",
+      "authors": "Jones, K. E., Patel, N. G., Levy, M. A., Storeygard, A., Balk, D., Gittleman, J. L., & Daszak, P.",
+      "year": "2008",
+      "title": "Global trends in emerging infectious diseases",
+      "venue": "Nature, 451(7181), 990–993",
+      "url": "https://doi.org/10.1038/nature06536",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "ipbes-2020": {
+      "short": "IPBES 2020",
+      "authors": "IPBES",
+      "year": "2020",
+      "title": "Workshop Report on Biodiversity and Pandemics",
+      "venue": "Intergovernmental Science-Policy Platform on Biodiversity and Ecosystem Services, Bonn",
+      "url": "https://www.ipbes.net/pandemics",
+      "kind": "report",
+      "open": true,
+      "note": "A workshop report by 22 experts. Peer-reviewed, but not formally approved by IPBES member governments."
+    },
+    "loomba-2021": {
+      "short": "Loomba et al. 2021",
+      "authors": "Loomba, S., de Figueiredo, A., Piatek, S. J., de Graaf, K., & Larson, H. J.",
+      "year": "2021",
+      "title": "Measuring the impact of COVID-19 vaccine misinformation on vaccination intent in the UK and USA",
+      "venue": "Nature Human Behaviour, 5(3), 337–348",
+      "url": "https://doi.org/10.1038/s41562-021-01056-1",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
+    "allen-2024": {
+      "short": "Allen et al. 2024",
+      "authors": "Allen, J., Watts, D. J., & Rand, D. G.",
+      "year": "2024",
+      "title": "Quantifying the impact of misinformation and vaccine-skeptical content on Facebook",
+      "venue": "Science, 384, eadk3451",
+      "url": "https://doi.org/10.1126/science.adk3451",
+      "kind": "article",
+      "open": false,
+      "note": ""
+    },
+    "lancet-countdown-2025": {
+      "short": "Romanello et al. 2025",
+      "authors": "Romanello, M., et al.",
+      "year": "2025",
+      "title": "The 2025 report of the Lancet Countdown on health and climate change",
+      "venue": "The Lancet",
+      "url": "https://lancetcountdown.org/",
+      "kind": "assessment",
+      "open": true,
+      "note": ""
+    }
+  }
+}
