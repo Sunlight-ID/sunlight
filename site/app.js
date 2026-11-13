@@ -434,6 +434,14 @@ function renderUs(){
     +'<p class="intro" style="margin-top:14px">We would rather show you the evidence than ask you to trust us. Every finding is rated for how strong its evidence is, and every claim lists its sources. We draw on as wide a range of sources as we can, with peer-reviewed research and scientific assessments first. Follow the links, read the sources, and make up your own mind.</p>'
     +'<div class="backup"><a class="btn" href="#about">How we rate evidence</a><a class="btn" href="#sources">Browse all sources</a><a class="btn" href="#map">Explore the map</a></div></div>'
 
+    +'<div class="sec"><div class="sec-h"><h3>A human project</h3></div>'
+    +'<p class="intro" style="margin-top:14px">Sunlight is a fundamentally human project. The judgements that matter, such as how strong a piece of evidence is, what counts as settled and where real disagreement lies, are made by people. Each area will be reviewed by academics and experts who know its research.</p>'
+    +'<p class="intro">We are open about how we work. We use AI tools for practical tasks, such as finding sources and drafting summaries, and our first entries were drafted this way. Every entry is being checked by people against its full sources, and no finding stands on an AI\'s judgement alone.</p>'
+    +'<p class="intro">We respect your judgement and your power to act. Sunlight will not tell you what to think or what to do. It sets out the evidence so that you can decide for yourself, and change things in the world as you see fit.</p></div>'
+
+    +'<div class="sec"><div class="sec-h"><h3>Who we are</h3></div>'
+    +'<p class="intro" style="margin-top:14px">Sunlight is an independent passion project. It has no funding, no advertising and no sponsors, so no one pays to shape what it says. The people behind it are anonymous for now. We would rather you judge Sunlight by the evidence it shows than by who we are.</p></div>'
+
     +'<div class="sec"><div class="sec-h"><h3>A work in progress</h3></div>'
     +'<p class="intro" style="margin-top:14px">Sunlight is new. We are still checking entries against their full sources, and adding topics and countries. Much of the research we cite so far comes from a handful of wealthy countries, and we want to widen that. Treat it as a careful first draft, and check the sources behind anything that matters to you.</p></div>';
   $("us-body").innerHTML=h;
