@@ -1,6 +1,6 @@
 # Sunlight: Informed Democracy — project brief
 
-This brief hands the project over from a planning chat to a coding session. Read it first, then look at `prototype/index.html` and `content/sunlight-content.json`.
+This brief hands the project over from a planning chat to a coding session. Read it first, then look at `prototype/index.html` and `site/content/sunlight-content.json`.
 
 ## What Sunlight is
 
@@ -28,7 +28,7 @@ Evidence ratings, used on every finding and connection:
 ## What exists today
 
 - `prototype/index.html`: a working single-file prototype (HTML, CSS and plain JavaScript, no build step). It has the map, the reading panel, a Sources page, a Method page, add/edit forms and backup import/export. It was built to run inside Claude, where it saves to Claude's own storage. Opened anywhere else it starts empty and saves to the browser only; use Method → Import from a backup file to load the content.
-- `content/sunlight-content.json`: the content as of 13 November 2026: 13 topics, 23 connections, 55 sources. The `format` field still reads `crisis-web`, the project's old name; the prototype's importer expects that value.
+- `site/content/sunlight-content.json`: the content as of 13 November 2026: 13 topics, 23 connections, 55 sources. The `format` field still reads `crisis-web`, the project's old name; the prototype's importer expects that value.
 
 Data model (see the JSON for real examples):
 
@@ -70,4 +70,9 @@ Data model (see the JSON for real examples):
 
 1. Create a git repository in this folder and a matching private GitHub repository named `sunlight`.
 2. Propose a project structure and the open technical choices above, with costs, and wait for the owner's go-ahead.
-3. Port the prototype into that structure, keeping the design and the data model, with the content loading from `content/sunlight-content.json` until the database is in place.
+3. Port the prototype into that structure, keeping the design and the data model, with the content loading from `site/content/sunlight-content.json` until the database is in place.
+
+## Progress
+
+- Stage 1 port done: `site/` is the public website (`index.html`, `styles.css`, `app.js`), read-only, loading `site/content/sunlight-content.json`. No build step. `prototype/` is kept unchanged for reference.
+- To preview locally, serve the `site/` folder over http (opening `index.html` directly from disk will not load the content).

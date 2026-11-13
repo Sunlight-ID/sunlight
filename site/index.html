@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunlight: Informed Democracy</title>
+<meta name="description" content="A map of the major crises of our time and how they connect, with evidence-rated findings, open debates and full references.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="ro">
+<header class="top">
+  <div class="brand">
+    <h1>Sun<span>light</span></h1>
+    <p>Informed Democracy</p>
+  </div>
+  <nav class="tabs" aria-label="Views">
+    <a href="#map" data-tab="map">Map</a>
+    <a href="#sources" data-tab="sources">Sources</a>
+    <a href="#about" data-tab="about">Method</a>
+  </nav>
+  <div class="acts">
+    <span class="status" id="status" role="status"></span>
+    <button class="btn edit" id="add-topic" type="button">Add topic</button>
+    <button class="btn edit" id="add-link" type="button">Add connection</button>
+  </div>
+</header>
+<div class="notice" id="notice" hidden></div>
+
+<main>
+  <section class="view" id="view-map">
+    <div class="mapcol">
+      <div class="mapbox">
+        <svg id="map" viewBox="0 0 1000 620" preserveAspectRatio="xMidYMid meet" role="group" aria-label="Map of topics and the connections between them">
+          <defs>
+            <pattern id="dots" width="25" height="25" patternUnits="userSpaceOnUse"><circle class="grid-dot" cx="12.5" cy="12.5" r="1.1"/></pattern>
+          </defs>
+          <rect width="1000" height="620" fill="url(#dots)"/>
+          <g id="map-body"></g>
+        </svg>
+      </div>
+      <div class="legend" id="legend"></div>
+    </div>
+    <aside id="panel" aria-live="polite"></aside>
+  </section>
+  <section class="view" id="view-sources" hidden><div class="page"><div class="col" id="sources-body"></div></div></section>
+  <section class="view" id="view-about" hidden><div class="page"><div class="col" id="about-body"></div></div></section>
+</main>
+
+<dialog id="dlg" aria-labelledby="dlg-title"><form id="dlg-form" novalidate></form></dialog>
+
+<script src="app.js"></script>
+</body>
+</html>
