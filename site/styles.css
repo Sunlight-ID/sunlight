@@ -121,6 +121,22 @@ main{flex:1;min-height:0}
 .refs{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:5px;font-size:13.5px;line-height:1.4;color:var(--muted);max-width:66ch}
 .refs li{padding-left:14px;text-indent:-14px;overflow-wrap:anywhere}
 .refs i{font-style:italic}
+/* footnotes: number after the claim links to the source; the note quotes the passage it rests on */
+sup.fn{font-family:var(--display);font-size:.62em;font-weight:700;line-height:0;margin-left:2px;vertical-align:super}
+sup.fn+sup.fn::before{content:",";color:var(--muted)}
+sup.fn a{color:var(--accent);text-decoration:none;padding:0 1px}
+sup.fn a:hover,sup.fn a:focus-visible{text-decoration:underline}
+.refs.fns{list-style:decimal;padding-left:22px;gap:9px}
+.refs.fns li{padding-left:2px;text-indent:0}
+.refs.fns li::marker{font-family:var(--display);font-weight:700;color:var(--accent);font-size:12px}
+.vq{display:block;color:var(--ink);font-style:italic;quotes:"\201C" "\201D"}
+q.vq::before{content:open-quote}q.vq::after{content:close-quote}
+.vq.data{font-style:normal}.vq.data b{font-family:var(--display);font-size:11.5px;font-weight:700;color:var(--muted)}
+.where a{color:inherit}
+.where{display:block;font-family:var(--display);font-size:11.5px;font-weight:600;margin-top:1px}
+.src-line{display:block;margin-top:2px}
+.lede+.refs.fns{margin-bottom:6px}
+.agreed p{margin:0}
 .tag{font-family:var(--display);font-size:11px;font-weight:600;border:1px solid var(--line);border-radius:4px;padding:0 5px;white-space:nowrap;color:var(--muted);text-indent:0;display:inline-block}
 .tag.free{color:var(--ev-settled);border-color:currentColor}
 .debate-q{font-size:19px;font-weight:700;font-family:var(--display);max-width:40ch}

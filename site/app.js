@@ -244,18 +244,54 @@ function renderLegend(){
     +'<span class="hint">'+(S.open?"Topics on the right belong to other areas. Select one to go there.":"Thicker lines mean more connections between two areas.")+'</span>';
 }
 
-/* ---------- references ---------- */
-function refHtml(id){
-  var s=S.sources.get(id);if(!s)return '<li><span class="flag">Missing source</span></li>';
+/* ---------- references ----------
+   Every claim gets numbered footnotes. Each number links straight to the source,
+   and the note underneath quotes the passage the claim rests on, word for word.
+   item = {sources:[ids], quotes:[{source, text, where, page}]} */
+var FN=0;/* footnote counter, reset each time a panel is drawn */
+function quotesFor(item,sid){return (item.quotes||[]).filter(function(x){return x.source===sid&&x.text})}
+function quoteFor(item,sid){return quotesFor(item,sid)[0]||null}
+function fragEnc(s){return encodeURIComponent(s).replace(/-/g,"%2D").replace(/,/g,"%2C")}
+/* Deep link: PDFs open at the page; web pages scroll to and highlight the quote where the browser supports it. */
+function deepUrl(u,q){
+  if(!u||!q)return u;var base=u.split("#")[0];
+  if(q.page)return base+"#page="+q.page;
+  if(q.nofrag||q.kind==="data"||/\.pdf($|\?)/i.test(base))return u;
+  /* Quotes may skip words with "…" or add words in [brackets]; match only unaltered words at each end. */
+  var parts=String(q.text).split(/\s*(?:…|\.\.\.|\[[^\]]*\])\s*/).filter(Boolean),
+      words=function(p){return p.split(/\s+/).filter(Boolean)},first=words(parts[0]||""),last=words(parts[parts.length-1]||"");
+  if(!first.length)return u;
+  if(parts.length===1&&first.length<=10)return base+"#:~:text="+fragEnc(first.join(" "));
+  return base+"#:~:text="+fragEnc(first.slice(0,5).join(" "))+","+fragEnc(last.slice(-5).join(" "));
+}
+function refBody(s){
+  if(!s)return '<span class="flag">Missing source</span>';
   var u=safeUrl(s.url);
-  return '<li>'+esc(s.authors)+(s.year?" ("+esc(s.year)+"). ":". ")+'<i>'+esc(s.title)+'</i>. '+(s.venue?esc(s.venue)+". ":"")
-    +(u?'<a href="'+esc(u)+'" target="_blank" rel="noopener">View source</a> ':"")
-    +(s.open?'<span class="tag free">Free to read</span>':"")+'</li>';
+  return '<span class="cite">'+esc(s.authors)+(s.year?" ("+esc(s.year)+"). ":". ")+'<i>'+esc(s.title)+'</i>. '+(s.venue?esc(s.venue)+". ":"")+'</span>'
+    +(u?'<a href="'+esc(u)+'" target="_blank" rel="noopener">Read the source</a> ':'<span class="flag">No link yet</span> ')
+    +(s.open?'<span class="tag free">Free to read</span>':'<span class="tag">May need a subscription</span>');
 }
-function refsHtml(ids){
-  if(!(ids||[]).length)return '<p style="margin-top:9px"><span class="flag">Needs a source</span></p>';
-  return '<ul class="refs" aria-label="Sources">'+ids.map(refHtml).join("")+'</ul>';
+/* Returns {marks: superscript links to put after the text, notes: the numbered list to put under it}. */
+function cites(item){
+  var ids=(item&&item.sources)||[];
+  if(!ids.length)return {marks:"",notes:'<p style="margin-top:9px"><span class="flag">Needs a source</span></p>'};
+  var marks="",notes="";
+  ids.forEach(function(sid){
+    var n=++FN,s=S.sources.get(sid),qs=quotesFor(item,sid),q=qs[0]||null,u=s?safeUrl(s.url):"",href=deepUrl(q&&safeUrl(q.url)||u,q);
+    marks+='<sup class="fn">'+(href?'<a href="'+esc(href)+'" target="_blank" rel="noopener" title="Open the source'+(q?' at the quoted passage':'')+'" aria-label="Source '+n+(s?", "+esc(s.short||s.authors):"")+'">'+n+'</a>':n)+'</sup>';
+    notes+='<li value="'+n+'">'
+      +(qs.length?qs.map(function(x){var l=deepUrl(safeUrl(x.url)||u,x);
+          /* kind "data" is a figure read from a table or dataset, so it is shown without quotation marks */
+          return (x.kind==="data"?'<span class="vq data"><b>Data</b> '+esc(x.text)+'</span>':'<q class="vq">'+esc(x.text)+'</q>')+(x.where?' <span class="where">'+(l?'<a href="'+esc(l)+'" target="_blank" rel="noopener">'+esc(x.where)+'</a>':esc(x.where))+'</span>':"")}).join("")
+         :'<span class="flag">Quote not yet added</span>')
+      +'<span class="src-line">'+refBody(s)+'</span></li>';
+  });
+  return {marks:marks,notes:'<ol class="refs fns" aria-label="Sources">'+notes+'</ol>'};
 }
+/* Text with its footnote marks, then its notes. */
+function citedText(tag,cls,text,item){var r=cites(item);return '<'+tag+(cls?' class="'+cls+'"':"")+'>'+esc(text)+r.marks+'</'+tag+'>'+r.notes}
+function summaryItem(o){return {sources:o.summarySources,quotes:o.summaryQuotes}}
+function hasQuotes(item){return (item.sources||[]).every(function(sid){return !!quoteFor(item,sid)})}
 function editBtn(act,label,extra){return '<button type="button" class="btn quiet edit" data-act="'+act+'"'+(extra||"")+'>'+(label||"Edit")+'</button>'}
 
 /* ---------- panel ---------- */
@@ -272,8 +308,8 @@ function findingsHtml(claims,ed){
   if(!claims.length)h+='<p class="none">No findings yet.</p>';
   claims.forEach(function(c){
     h+='<div class="item"><div class="item-top">'+evPill(c.strength)+E("edit-claim","Edit",' data-id="'+esc(c.id)+'"')+'</div>'
-      +'<p class="claim">'+esc(c.text)+'</p>'
-      +(c.note?'<p class="why"><b>Why this rating</b> '+esc(c.note)+'</p>':"")+refsHtml(c.sources)+'</div>';
+      +(function(){var r=cites(c);return '<p class="claim">'+esc(c.text)+r.marks+'</p>'
+      +(c.note?'<p class="why"><b>Why this rating</b> '+esc(c.note)+'</p>':"")+r.notes})()+'</div>';
   });
   return h+'</div>';
 }
@@ -282,9 +318,9 @@ function debatesHtml(debates,ed,noun){
   if(!(debates||[]).length)h+='<p class="none">No debates recorded for '+noun+' yet.</p>';
   (debates||[]).forEach(function(d){
     h+='<div class="item"><div class="item-top"><h4 class="debate-q">'+esc(d.question)+'</h4>'+E("edit-debate","Edit",' data-id="'+esc(d.id)+'"')+'</div>'
-      +(d.agreed?'<p class="agreed"><b>Not in dispute</b>'+esc(d.agreed)+'</p>':"")+'<div class="positions">';
+      +(d.agreed?(function(){var r=cites({sources:d.agreedSources,quotes:d.agreedQuotes});return '<div class="agreed"><p><b>Not in dispute</b>'+esc(d.agreed)+r.marks+'</p>'+r.notes+'</div>'})():"")+'<div class="positions">';
     (d.positions||[]).forEach(function(p){
-      h+='<div class="pos"><h4><span>'+esc(p.label)+'</span>'+E("edit-pos","Edit",' data-id="'+esc(d.id)+'" data-pid="'+esc(p.id)+'"')+'</h4><p>'+esc(p.text||"")+'</p>'+refsHtml(p.sources)+'</div>';
+      h+='<div class="pos"><h4><span>'+esc(p.label)+'</span>'+E("edit-pos","Edit",' data-id="'+esc(d.id)+'" data-pid="'+esc(p.id)+'"')+'</h4>'+citedText("p","",p.text||"",p)+'</div>';
     });
     h+='</div>'+(ed?'<p style="margin-top:10px">'+E("add-pos","Add a position",' data-id="'+esc(d.id)+'"')+'</p>':"")+'</div>';
   });
@@ -292,12 +328,12 @@ function debatesHtml(debates,ed,noun){
 }
 function sortClaims(list){return (list||[]).slice().sort(function(a,b){return EV_ORDER.indexOf(a.strength)-EV_ORDER.indexOf(b.strength)})}
 function renderPanel(){
-  var el=$("panel"),sel=S.sel,h="";
+  var el=$("panel"),sel=S.sel,h="";FN=0;
   if(sel&&sel.type==="topic"&&S.topics.has(sel.id)){
     var t=S.topics.get(sel.id),id=sel.id;
     var claims=(t.claims||[]).slice().sort(function(a,b){return EV_ORDER.indexOf(a.strength)-EV_ORDER.indexOf(b.strength)});
     h+=backBtn(t.group)+'<p class="kicker">Topic · '+esc(groupTitle(t.group))+'</p><h2 class="ptitle">'+esc(t.title)+'</h2>'
-      +'<p class="lede">'+esc(t.summary||"")+'</p>'
+      +citedText("p","lede",t.summary||"",summaryItem(t))
       +'<div class="meta">'+(t.updated?'<span>Updated '+esc(niceDate(t.updated))+'</span>':"")+editBtn("edit-topic","Edit topic")+'</div>';
     h+=findingsHtml(claims,true)+debatesHtml(t.debates,true,"this topic");
     var ls=topicLinks(id);
@@ -314,7 +350,7 @@ function renderPanel(){
       +'<h2 class="ptitle">'+esc(l.label||"Connection")+'</h2>'
       +'<p class="pair">Between <button type="button" data-act="open-topic" data-id="'+esc(l.a)+'">'+esc(a?a.title:"?")+'</button> and <button type="button" data-act="open-topic" data-id="'+esc(l.b)+'">'+esc(b?b.title:"?")+'</button></p>'
       +'<div class="item" style="border-bottom:0"><div class="item-top">'+evPill(l.strength)+editBtn("edit-link","Edit connection")+'</div>'
-      +'<p class="lede">'+esc(l.text||"")+'</p>'+refsHtml(l.sources)+'</div>';
+      +citedText("p","lede",l.text||"",l)+'</div>';
   } else if(sel&&sel.type==="group"&&S.groups.has(sel.id)){
     var gid=sel.id,g=S.groups.get(gid),tops=groupTopics(gid),nf=0,nd=0;
     tops.forEach(function(e){nf+=(e[1].claims||[]).length;nd+=(e[1].debates||[]).length});
@@ -401,7 +437,7 @@ function renderAbout(){
     +'<ol class="principles" style="margin-top:22px">'
     +'<li><span><b>Follow the evidence.</b> Where the science is settled, the map says so plainly. It does not invent balance where the evidence points one way.</span></li>'
     +'<li><span><b>Show the real debates.</b> Where qualified experts disagree, each position is set out with its sources, alongside what both sides accept.</span></li>'
-    +'<li><span><b>Every claim carries its sources.</b> Peer-reviewed research and scientific assessments come first. Sources that are free to read are marked.</span></li>'
+    +'<li><span><b>Every claim carries its sources.</b> Each claim has a numbered footnote that links straight to the source. Under it is the passage the claim rests on, quoted word for word, so you can compare our summary with the original. Where a quote has not been added yet, the footnote says so. Peer-reviewed research and scientific assessments come first. Sources that are free to read are marked.</span></li>'
     +'<li><span><b>Plain language.</b> Short sentences, everyday words, numbers with their context.</span></li>'
     +'<li><span><b>Clear values.</b> The map starts from the equal worth of every person and care for the living world. Values shape which questions get asked. They do not decide what the evidence shows.</span></li></ol>'
     +'<div class="sec"><div class="sec-h"><h3>Strength of evidence</h3></div><div class="scale" style="margin-top:14px">'
@@ -629,12 +665,12 @@ function renderWorld(){
   renderWorldPanel();
 }
 function renderWorldPanel(){
-  var el=$("wpanel"),id=S.csel,h="";
+  var el=$("wpanel"),id=S.csel,h="";FN=0;
   if(id&&(Wd.byId.has(id)||S.countries.has(id))){
     var c=S.countries.get(id),name=countryName(id);
     h+='<button class="back" type="button" data-act="world-home">← World</button><p class="kicker">Country</p><h2 class="ptitle">'+esc(name)+'</h2>';
     if(c){
-      h+=(c.summary?'<p class="lede">'+esc(c.summary)+'</p>':"")
+      h+=(c.summary?citedText("p","lede",c.summary,summaryItem(c)):"")
         +(c.updated?'<div class="meta"><span>Updated '+esc(niceDate(c.updated))+'</span></div>':"")
         +findingsHtml(sortClaims(c.claims),false)+debatesHtml(c.debates,false,name);
       var rel=(c.topics||[]).filter(function(t){return S.topics.has(t)});

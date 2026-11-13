@@ -78,3 +78,10 @@ Data model (see the JSON for real examples):
 - The map is organised by area: content key `groups` (planet, power, information), and each topic has a `group`. The map opens on the areas; opening one shows its topics on a ring, with linked topics from other areas in a column on the right. Layout is automatic, so topic `x`/`y` values are no longer used.
 - World tab: clickable world map (Natural Earth 1:50m via world-atlas, d3-geo and topojson-client vendored in `site/vendor/`). Country profiles go in content key `countries`, keyed by ISO 3166-1 numeric code (e.g. "826" = United Kingdom), with `name`, `summary`, `updated`, `claims[]`, `debates[]` and `topics[]` (related topic ids). First profiles: United Kingdom (826) and United States (840), drafted 13 November 2026 and checked against official releases, report text or abstracts; still need review against full sources. Planned next: arcs showing relationships, organisations and alignments.
 - To preview locally, serve the `site/` folder over http (opening `index.html` directly from disk will not load the content).
+
+### Footnotes and verbatim quotes (13 Nov 2026)
+
+- Every claim (findings, debate positions, "Not in dispute" lines, connections, topic and country summaries) shows numbered footnotes. Each number links straight to the source, at the quoted page or passage where possible.
+- Each footnote shows the passage the claim rests on, word for word. In the content file this is `quotes: [{source, text, where, page, url, kind}]` next to `sources`. Summaries use `summarySources`/`summaryQuotes`; "Not in dispute" lines use `agreedSources`/`agreedQuotes`. `kind: "data"` marks a figure read from a table or dataset.
+- Rule: a paraphrase may only say what its quote supports. Never add a quote that has not been read in the source itself. Citations without a quote show a "Quote not yet added" flag on the site.
+- Still without quotes (source could not be read automatically): Mudde 2019, Paxton 2004, Fiorina 2005 (books); Abramowitz 2008; OECD 2024; UNHCR 2025; SOFI 2025; Benton 2021; Willett 2019 (one line); Kendon 2025; Marvel 2023 (NCA5).
