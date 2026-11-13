@@ -9,11 +9,11 @@ var EV={
 };
 var EV_ORDER=["settled","strong","emerging","contested"];
 var KINDS={article:"Peer-reviewed article",assessment:"Scientific assessment",report:"Institutional report",book:"Book",data:"Dataset",other:"Other"};
-var KEYS=["groups","topics","links","sources"];
+var KEYS=["groups","countries","topics","links","sources"];
 
 var CONTENT_URL="content/sunlight-content.json";
 /* Stage 1 is a read-only public site. Editing returns once editor log-ins exist (stage 2). */
-var S={groups:new Map(),topics:new Map(),links:new Map(),sources:new Map(),view:"map",sel:null,open:null,canWrite:false,loaded:false};
+var S={groups:new Map(),countries:new Map(),topics:new Map(),links:new Map(),sources:new Map(),view:"map",sel:null,open:null,csel:null,canWrite:false,loaded:false};
 
 
 /* ---------- helpers ---------- */
@@ -36,9 +36,10 @@ function sourceUses(){
   var m=new Map();function add(ids,where){(ids||[]).forEach(function(i){if(!m.has(i))m.set(i,[]);m.get(i).push(where)})}
   S.topics.forEach(function(t){(t.claims||[]).forEach(function(c){add(c.sources,t.title)});(t.debates||[]).forEach(function(d){(d.positions||[]).forEach(function(p){add(p.sources,t.title)})})});
   S.links.forEach(function(l){var a=S.topics.get(l.a),b=S.topics.get(l.b);add(l.sources,(a?a.title:"?")+" and "+(b?b.title:"?"))});
+  S.countries.forEach(function(c,id){var nm=c.name||id;(c.claims||[]).forEach(function(x){add(x.sources,nm)});(c.debates||[]).forEach(function(d){(d.positions||[]).forEach(function(p){add(p.sources,nm)})})});
   return m;
 }
-function gaps(){var n=0;S.topics.forEach(function(t){(t.claims||[]).forEach(function(c){if(!(c.sources||[]).length)n++})});S.links.forEach(function(l){if(!(l.sources||[]).length)n++});return n}
+function gaps(){var n=0;S.countries.forEach(function(c){(c.claims||[]).forEach(function(x){if(!(x.sources||[]).length)n++})});S.topics.forEach(function(t){(t.claims||[]).forEach(function(c){if(!(c.sources||[]).length)n++})});S.links.forEach(function(l){if(!(l.sources||[]).length)n++});return n}
 
 /* ---------- storage ---------- */
 function setStatus(t,bad){var el=$("status");el.textContent=t||"";el.classList.toggle("bad",!!bad)}
@@ -82,6 +83,7 @@ function trunc(s,n){s=String(s);return s.length>n?s.slice(0,n-1)+"…":s}
 function route(){
   var h=decodeURIComponent(location.hash.replace(/^#/,""));
   if(h==="sources"||h==="about"){S.view=h;render();return}
+  if(h==="world"||h.indexOf("w-")===0){var was=S.csel;S.view="world";S.csel=h==="world"?null:h.slice(2);if(S.csel&&S.csel!==was&&Wd.fitNext!==false)Wd.fitNext=true;render();return}
   S.view="map";S.sel=null;
   if(!S.loaded){render();return}
   var id=h.slice(2);
@@ -101,7 +103,7 @@ function route(){
 function go(hash){if(location.hash===hash)route();else location.hash=hash}
 var PREFIX={topic:"t-",link:"c-",group:"g-",pair:"p-"};
 function select(type,id){go(type?"#"+PREFIX[type]+id:"#map")}
-window.addEventListener("hashchange",function(){route();if(S.view==="map")$("panel").scrollTop=0});
+window.addEventListener("hashchange",function(){route();if(S.view==="map")$("panel").scrollTop=0;if(S.view==="world")$("wpanel").scrollTop=0});
 
 /* ---------- map ---------- */
 var CW=300,CH=140,GW=196,GH=60,GX=1000-GW/2-14;
@@ -264,6 +266,31 @@ function linkName(l){var a=S.topics.get(l.a),b=S.topics.get(l.b);return (a?a.tit
 function topicCounts(id,t){return pl((t.claims||[]).length,"finding")+", "+pl((t.debates||[]).length,"debate")+", "+pl(topicLinks(id).length,"connection")}
 function backBtn(gid){return gid&&S.groups.has(gid)?'<button class="back" type="button" data-act="open-group" data-id="'+esc(gid)+'">← '+esc(groupTitle(gid))+'</button>':'<button class="back" type="button" data-act="home">← All areas</button>'}
 function scaleHtml(){return '<div class="scale" style="margin-top:14px">'+EV_ORDER.map(function(k){return '<div>'+evPill(k)+'<span>'+EV[k].desc+'</span></div>'}).join("")+'</div>'}
+/* Findings and debates look the same on topics and country profiles. Edit buttons only on topics for now. */
+function findingsHtml(claims,ed){
+  var E=ed?editBtn:function(){return ""},h='<div class="sec"><div class="sec-h"><h3>What the evidence shows</h3>'+E("add-claim","Add finding")+'</div>';
+  if(!claims.length)h+='<p class="none">No findings yet.</p>';
+  claims.forEach(function(c){
+    h+='<div class="item"><div class="item-top">'+evPill(c.strength)+E("edit-claim","Edit",' data-id="'+esc(c.id)+'"')+'</div>'
+      +'<p class="claim">'+esc(c.text)+'</p>'
+      +(c.note?'<p class="why"><b>Why this rating</b> '+esc(c.note)+'</p>':"")+refsHtml(c.sources)+'</div>';
+  });
+  return h+'</div>';
+}
+function debatesHtml(debates,ed,noun){
+  var E=ed?editBtn:function(){return ""},h='<div class="sec"><div class="sec-h"><h3>Open debates</h3>'+E("add-debate","Add debate")+'</div>';
+  if(!(debates||[]).length)h+='<p class="none">No debates recorded for '+noun+' yet.</p>';
+  (debates||[]).forEach(function(d){
+    h+='<div class="item"><div class="item-top"><h4 class="debate-q">'+esc(d.question)+'</h4>'+E("edit-debate","Edit",' data-id="'+esc(d.id)+'"')+'</div>'
+      +(d.agreed?'<p class="agreed"><b>Not in dispute</b>'+esc(d.agreed)+'</p>':"")+'<div class="positions">';
+    (d.positions||[]).forEach(function(p){
+      h+='<div class="pos"><h4><span>'+esc(p.label)+'</span>'+E("edit-pos","Edit",' data-id="'+esc(d.id)+'" data-pid="'+esc(p.id)+'"')+'</h4><p>'+esc(p.text||"")+'</p>'+refsHtml(p.sources)+'</div>';
+    });
+    h+='</div>'+(ed?'<p style="margin-top:10px">'+E("add-pos","Add a position",' data-id="'+esc(d.id)+'"')+'</p>':"")+'</div>';
+  });
+  return h+'</div>';
+}
+function sortClaims(list){return (list||[]).slice().sort(function(a,b){return EV_ORDER.indexOf(a.strength)-EV_ORDER.indexOf(b.strength)})}
 function renderPanel(){
   var el=$("panel"),sel=S.sel,h="";
   if(sel&&sel.type==="topic"&&S.topics.has(sel.id)){
@@ -272,25 +299,9 @@ function renderPanel(){
     h+=backBtn(t.group)+'<p class="kicker">Topic · '+esc(groupTitle(t.group))+'</p><h2 class="ptitle">'+esc(t.title)+'</h2>'
       +'<p class="lede">'+esc(t.summary||"")+'</p>'
       +'<div class="meta">'+(t.updated?'<span>Updated '+esc(niceDate(t.updated))+'</span>':"")+editBtn("edit-topic","Edit topic")+'</div>';
-    h+='<div class="sec"><div class="sec-h"><h3>What the evidence shows</h3>'+editBtn("add-claim","Add finding")+'</div>';
-    if(!claims.length)h+='<p class="none">No findings yet.</p>';
-    claims.forEach(function(c){
-      h+='<div class="item"><div class="item-top">'+evPill(c.strength)+editBtn("edit-claim","Edit",' data-id="'+esc(c.id)+'"')+'</div>'
-        +'<p class="claim">'+esc(c.text)+'</p>'
-        +(c.note?'<p class="why"><b>Why this rating</b> '+esc(c.note)+'</p>':"")+refsHtml(c.sources)+'</div>';
-    });
-    h+='</div><div class="sec"><div class="sec-h"><h3>Open debates</h3>'+editBtn("add-debate","Add debate")+'</div>';
-    if(!(t.debates||[]).length)h+='<p class="none">No debates recorded for this topic yet.</p>';
-    (t.debates||[]).forEach(function(d){
-      h+='<div class="item"><div class="item-top"><h4 class="debate-q">'+esc(d.question)+'</h4>'+editBtn("edit-debate","Edit",' data-id="'+esc(d.id)+'"')+'</div>'
-        +(d.agreed?'<p class="agreed"><b>Not in dispute</b>'+esc(d.agreed)+'</p>':"")+'<div class="positions">';
-      (d.positions||[]).forEach(function(p){
-        h+='<div class="pos"><h4><span>'+esc(p.label)+'</span>'+editBtn("edit-pos","Edit",' data-id="'+esc(d.id)+'" data-pid="'+esc(p.id)+'"')+'</h4><p>'+esc(p.text||"")+'</p>'+refsHtml(p.sources)+'</div>';
-      });
-      h+='</div><p style="margin-top:10px">'+editBtn("add-pos","Add a position",' data-id="'+esc(d.id)+'"')+'</p></div>';
-    });
+    h+=findingsHtml(claims,true)+debatesHtml(t.debates,true,"this topic");
     var ls=topicLinks(id);
-    h+='</div><div class="sec"><div class="sec-h"><h3>Connected to</h3>'+editBtn("add-link-here","Add connection")+'</div>';
+    h+='<div class="sec"><div class="sec-h"><h3>Connected to</h3>'+editBtn("add-link-here","Add connection")+'</div>';
     if(!ls.length)h+='<p class="none">Not connected to anything yet.</p>';
     ls.forEach(function(x){
       var oid=x[1].a===id?x[1].b:x[1].a,o=S.topics.get(oid),other=o&&o.group!==t.group;
@@ -551,13 +562,167 @@ function formSource(sid){
 $("add-topic").addEventListener("click",function(){formTopic(null)});
 $("add-link").addEventListener("click",function(){formLink(null,S.sel&&S.sel.type==="topic"?S.sel.id:null)});
 
+/* ---------- world ---------- */
+/* Country shapes: Natural Earth 1:50m via the world-atlas package, keyed by ISO 3166-1 numeric code ("826" is the UK).
+   Country profiles live in content key "countries" under the same code: name, summary, updated, claims[], debates[],
+   topics[] (ids of related topics on the main map). Shapes without a code (e.g. Kosovo) use "x-" plus a slug of the name. */
+var WORLD_URL="vendor/countries-50m.json",WW=1000,WH=520;
+var NAME_FIX={"Antigua and Barb.":"Antigua and Barbuda","Ashmore and Cartier Is.":"Ashmore and Cartier Islands","Bosnia and Herz.":"Bosnia and Herzegovina",
+  "Br. Indian Ocean Ter.":"British Indian Ocean Territory","British Virgin Is.":"British Virgin Islands","Cayman Is.":"Cayman Islands","Central African Rep.":"Central African Republic",
+  "Cook Is.":"Cook Islands","Dem. Rep. Congo":"Democratic Republic of the Congo","Dominican Rep.":"Dominican Republic","Eq. Guinea":"Equatorial Guinea","Faeroe Is.":"Faroe Islands",
+  "Falkland Is.":"Falkland Islands","Fr. Polynesia":"French Polynesia","Fr. S. Antarctic Lands":"French Southern and Antarctic Lands","Heard I. and McDonald Is.":"Heard Island and McDonald Islands",
+  "Indian Ocean Ter.":"Australian Indian Ocean Territories","Marshall Is.":"Marshall Islands","N. Cyprus":"Northern Cyprus","N. Mariana Is.":"Northern Mariana Islands","Pitcairn Is.":"Pitcairn Islands",
+  "S. Geo. and the Is.":"South Georgia and the South Sandwich Islands","S. Sudan":"South Sudan","Solomon Is.":"Solomon Islands","St. Kitts and Nevis":"Saint Kitts and Nevis",
+  "St. Pierre and Miquelon":"Saint Pierre and Miquelon","St. Vin. and Gren.":"Saint Vincent and the Grenadines","Turks and Caicos Is.":"Turks and Caicos Islands",
+  "U.S. Virgin Is.":"United States Virgin Islands","W. Sahara":"Western Sahara","Wallis and Futuna Is.":"Wallis and Futuna"};
+var Wd={status:"idle",features:[],byId:new Map(),drawn:false,vb:{x:0,y:0,w:WW,h:WH},fitNext:null,ptrs:new Map(),pan:null,pinch:null};
+function countryName(id){var c=S.countries.get(id),f=Wd.byId.get(id);return (c&&c.name)||(f&&f.name)||id}
+function loadWorld(){
+  if(Wd.status!=="idle")return;
+  Wd.status="loading";
+  if(!window.d3||!d3.geoEqualEarth||!window.topojson){Wd.status="error";return}
+  fetch(WORLD_URL).then(function(r){if(!r.ok)throw new Error("HTTP "+r.status);return r.json()}).then(function(topo){
+    var feats=topojson.feature(topo,topo.objects.countries).features.filter(function(f){return f.id!=="010"}); /* leave out Antarctica */
+    var proj=d3.geoEqualEarth().fitExtent([[6,6],[WW-6,WH-6]],{type:"FeatureCollection",features:feats});
+    var path=d3.geoPath(proj);if(path.digits)path.digits(1);
+    feats.forEach(function(f){
+      var raw=(f.properties&&f.properties.name)||"",id=f.id||("x-"+slug(raw)),d=path(f);if(!d)return;
+      var c={id:id,name:NAME_FIX[raw]||raw,d:d,b:path.bounds(f)};Wd.features.push(c);Wd.byId.set(id,c);
+    });
+    Wd.features.sort(function(a,b){return a.name.localeCompare(b.name)});
+    Wd.status="ready";if(S.view==="world")render();
+  }).catch(function(){Wd.status="error";if(S.view==="world")render()});
+}
+function setVB(x,y,w){
+  w=Math.max(WW/40,Math.min(WW,w));var h=w*WH/WW;
+  x=Math.max(0,Math.min(WW-w,x));y=Math.max(0,Math.min(WH-h,y));
+  Wd.vb={x:x,y:y,w:w,h:h};$("world").setAttribute("viewBox",[x,y,w,h].map(function(n){return Math.round(n*100)/100}).join(" "));
+}
+function zoomAt(px,py,k){var v=Wd.vb,w=Math.max(WW/40,Math.min(WW,v.w*k));k=w/v.w;setVB(px-(px-v.x)*k,py-(py-v.y)*k,w)}
+function fitCountry(id){
+  var f=Wd.byId.get(id);if(!f)return;
+  var b=f.b,cx=(b[0][0]+b[1][0])/2,cy=(b[0][1]+b[1][1])/2,w=Math.max((b[1][0]-b[0][0])*2.4,(b[1][1]-b[0][1])*2.4*WW/WH,WW/14);
+  if(w>WW*.8)w=WW;setVB(cx-w/2,cy-w*WH/WW/2,w);
+}
+function svgPt(clientX,clientY){var svg=$("world"),p=svg.createSVGPoint();p.x=clientX;p.y=clientY;return p.matrixTransform(svg.getScreenCTM().inverse())}
+function renderWorld(){
+  loadWorld();
+  var body=$("world-body");
+  if(Wd.status!=="ready"){
+    Wd.drawn=false;
+    body.innerHTML='<text class="empty-map" x="500" y="260">'+(Wd.status==="error"?"The world map could not be loaded. Reload the page to try again.":"Loading the world map…")+'</text>';
+  } else {
+    if(!Wd.drawn){
+      body.innerHTML=Wd.features.map(function(f){return '<path class="country" data-c="'+esc(f.id)+'" d="'+f.d+'"><title>'+esc(f.name)+'</title></path>'}).join("");
+      $("w-list").innerHTML=Wd.features.map(function(f){return '<option value="'+esc(f.name)+'">'}).join("");
+      Wd.drawn=true;
+    }
+    Array.prototype.forEach.call(body.querySelectorAll("path.country"),function(p){
+      var id=p.getAttribute("data-c");p.classList.toggle("has",S.countries.has(id));p.classList.toggle("sel",id===S.csel);
+    });
+    var sp=S.csel&&body.querySelector('path[data-c="'+S.csel.replace(/"/g,"")+'"]');if(sp)body.appendChild(sp); /* draw selected on top */
+    if(Wd.fitNext===true&&S.csel)fitCountry(S.csel);
+    Wd.fitNext=null;
+  }
+  $("wlegend").innerHTML='<span><span class="swatch has"></span>Has a profile</span><span><span class="swatch"></span>No profile yet</span>'
+    +'<span class="hint">Scroll or pinch to zoom. Drag to move.</span>';
+  renderWorldPanel();
+}
+function renderWorldPanel(){
+  var el=$("wpanel"),id=S.csel,h="";
+  if(id&&(Wd.byId.has(id)||S.countries.has(id))){
+    var c=S.countries.get(id),name=countryName(id);
+    h+='<button class="back" type="button" data-act="world-home">← World</button><p class="kicker">Country</p><h2 class="ptitle">'+esc(name)+'</h2>';
+    if(c){
+      h+=(c.summary?'<p class="lede">'+esc(c.summary)+'</p>':"")
+        +(c.updated?'<div class="meta"><span>Updated '+esc(niceDate(c.updated))+'</span></div>':"")
+        +findingsHtml(sortClaims(c.claims),false)+debatesHtml(c.debates,false,name);
+      var rel=(c.topics||[]).filter(function(t){return S.topics.has(t)});
+      if(rel.length){
+        h+='<div class="sec"><div class="sec-h"><h3>Related topics</h3></div>';
+        rel.forEach(function(t){var tp=S.topics.get(t);h+=connBtn("open-topic",t,tp.title,groupTitle(tp.group))});
+        h+='</div>';
+      }
+    } else {
+      h+='<p class="lede">There is no profile for '+esc(name)+' yet.</p>'
+        +'<p class="why" style="margin-top:12px">Country profiles are being written. Each one will set out the issues that matter most there, with the evidence and the sources behind it. Until then, the topics map covers the global picture.</p>'
+        +'<p style="margin-top:16px"><a class="btn" href="#map">Explore the topics</a></p>';
+    }
+  } else {
+    var list=Array.from(S.countries.keys()).sort(function(a,b){return countryName(a).localeCompare(countryName(b))});
+    h+='<p class="kicker">World</p><h2 class="ptitle">Countries</h2>'
+      +'<p class="lede">Select a country on the map, or search for it by name, to read about the issues that matter most there.</p>'
+      +'<div class="sec"><div class="sec-h"><h3>Country profiles</h3></div>';
+    if(!S.loaded)h+='<p class="none">Loading…</p>';
+    else if(!list.length)h+='<p class="none">No country profiles have been published yet. Every country can still be selected on the map.</p>';
+    list.forEach(function(cid){var c=S.countries.get(cid);h+=connBtn("open-country",cid,countryName(cid),pl((c.claims||[]).length,"finding"))});
+    h+='</div><p class="why" style="margin-top:22px">Country borders come from Natural Earth. Showing them does not mean Sunlight takes a position on any disputed border.</p>';
+  }
+  el.innerHTML=h;
+}
+function bindWorld(){
+  var svg=$("world");
+  function goCountry(id,fit){Wd.fitNext=fit?true:false;go("#w-"+id)}
+  svg.addEventListener("wheel",function(e){
+    if(Wd.status!=="ready")return;e.preventDefault();
+    var p=svgPt(e.clientX,e.clientY);zoomAt(p.x,p.y,e.deltaY>0?1.2:1/1.2);
+  },{passive:false});
+  svg.addEventListener("pointerdown",function(e){
+    Wd.ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    try{svg.setPointerCapture(e.pointerId)}catch(_){}
+    if(Wd.ptrs.size===1){var t=e.target.closest&&e.target.closest("[data-c]");Wd.pan={sx:e.clientX,sy:e.clientY,vb:Wd.vb,moved:false,target:t?t.getAttribute("data-c"):null}}
+    else if(Wd.ptrs.size===2){var q=Array.from(Wd.ptrs.values());Wd.pinch={d:Math.hypot(q[0].x-q[1].x,q[0].y-q[1].y)};if(Wd.pan)Wd.pan.moved=true}
+  });
+  svg.addEventListener("pointermove",function(e){
+    if(!Wd.ptrs.has(e.pointerId))return;
+    Wd.ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(Wd.ptrs.size===2&&Wd.pinch){
+      var q=Array.from(Wd.ptrs.values()),d=Math.hypot(q[0].x-q[1].x,q[0].y-q[1].y);
+      if(d>0&&Wd.pinch.d>0){var m=svgPt((q[0].x+q[1].x)/2,(q[0].y+q[1].y)/2);zoomAt(m.x,m.y,Wd.pinch.d/d)}
+      Wd.pinch.d=d;return;
+    }
+    var pn=Wd.pan;if(!pn)return;
+    var dx=e.clientX-pn.sx,dy=e.clientY-pn.sy;
+    if(!pn.moved&&Math.hypot(dx,dy)<5)return;
+    pn.moved=true;svg.classList.add("panning");
+    var s=svg.getScreenCTM().a||1;setVB(pn.vb.x-dx/s,pn.vb.y-dy/s,pn.vb.w);
+  });
+  function end(e){
+    Wd.ptrs.delete(e.pointerId);
+    if(Wd.ptrs.size<2)Wd.pinch=null;
+    if(Wd.ptrs.size)return;
+    var pn=Wd.pan;Wd.pan=null;svg.classList.remove("panning");
+    if(pn&&!pn.moved&&e.type==="pointerup"){if(pn.target)goCountry(pn.target,false);else if(S.csel)go("#world")}
+  }
+  svg.addEventListener("pointerup",end);
+  svg.addEventListener("pointercancel",end);
+  function find(){
+    var q=$("w-find").value.trim().toLowerCase();if(!q||Wd.status!=="ready")return;
+    var f=Wd.features.find(function(x){return x.name.toLowerCase()===q})||Wd.features.find(function(x){return x.name.toLowerCase().indexOf(q)===0})||Wd.features.find(function(x){return x.name.toLowerCase().indexOf(q)>=0});
+    if(f){goCountry(f.id,true);$("w-find").value="";$("w-find").blur()}
+  }
+  $("w-find").addEventListener("change",find);
+  $("w-find").addEventListener("keydown",function(e){if(e.key==="Enter"){e.preventDefault();find()}});
+  $("w-in").addEventListener("click",function(){var v=Wd.vb;zoomAt(v.x+v.w/2,v.y+v.h/2,1/1.5)});
+  $("w-out").addEventListener("click",function(){var v=Wd.vb;zoomAt(v.x+v.w/2,v.y+v.h/2,1.5)});
+  $("w-reset").addEventListener("click",function(){setVB(0,0,WW)});
+  $("wpanel").addEventListener("click",function(e){
+    var b=e.target.closest("[data-act]");if(!b)return;
+    var act=b.getAttribute("data-act"),id=b.getAttribute("data-id");
+    if(act==="world-home")go("#world");
+    else if(act==="open-country")goCountry(id,true);
+    else if(act==="open-topic")select("topic",id);
+  });
+}
+
 /* ---------- render ---------- */
 function render(){
-  ["map","sources","about"].forEach(function(v){$("view-"+v).hidden=S.view!==v});
+  ["map","world","sources","about"].forEach(function(v){$("view-"+v).hidden=S.view!==v});
   document.querySelectorAll("[data-tab]").forEach(function(a){if(a.getAttribute("data-tab")===S.view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(S.view==="map"){renderMap();renderLegend();renderPanel()}
+  else if(S.view==="world")renderWorld();
   else if(S.view==="sources")renderSources();
   else renderAbout();
 }
-bindMap();init();
+bindMap();bindWorld();init();
 })();

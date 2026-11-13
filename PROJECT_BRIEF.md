@@ -76,4 +76,5 @@ Data model (see the JSON for real examples):
 
 - Stage 1 port done: `site/` is the public website (`index.html`, `styles.css`, `app.js`), read-only, loading `site/content/sunlight-content.json`. No build step. `prototype/` is kept unchanged for reference.
 - The map is organised by area: content key `groups` (planet, power, information), and each topic has a `group`. The map opens on the areas; opening one shows its topics on a ring, with linked topics from other areas in a column on the right. Layout is automatic, so topic `x`/`y` values are no longer used.
+- World tab: clickable world map (Natural Earth 1:50m via world-atlas, d3-geo and topojson-client vendored in `site/vendor/`). Country profiles go in content key `countries`, keyed by ISO 3166-1 numeric code (e.g. "826" = United Kingdom), with `name`, `summary`, `updated`, `claims[]`, `debates[]` and `topics[]` (related topic ids). No profiles are written yet. Planned next: arcs showing relationships, organisations and alignments.
 - To preview locally, serve the `site/` folder over http (opening `index.html` directly from disk will not load the content).

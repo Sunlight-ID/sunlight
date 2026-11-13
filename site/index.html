@@ -17,7 +17,8 @@
     <p>Informed Democracy</p>
   </div>
   <nav class="tabs" aria-label="Views">
-    <a href="#map" data-tab="map">Map</a>
+    <a href="#map" data-tab="map">Topics</a>
+    <a href="#world" data-tab="world">World</a>
     <a href="#sources" data-tab="sources">Sources</a>
     <a href="#about" data-tab="about">Method</a>
   </nav>
@@ -46,12 +47,30 @@
     </div>
     <aside id="panel" aria-live="polite"></aside>
   </section>
+  <section class="view" id="view-world" hidden>
+    <div class="mapcol">
+      <div class="crumbs world-bar">
+        <label class="sr-only" for="w-find">Find a country</label>
+        <input type="search" id="w-find" list="w-list" placeholder="Find a country" autocomplete="off">
+        <datalist id="w-list"></datalist>
+        <span class="zoom"><button type="button" class="btn quiet" id="w-in" aria-label="Zoom in">+</button><button type="button" class="btn quiet" id="w-out" aria-label="Zoom out">−</button><button type="button" class="btn quiet" id="w-reset">Whole world</button></span>
+      </div>
+      <div class="mapbox world-box">
+        <svg id="world" viewBox="0 0 1000 520" preserveAspectRatio="xMidYMid meet" role="group" aria-label="World map. Select a country, or use the search box, to read about it."><g id="world-body"></g></svg>
+      </div>
+      <div class="legend" id="wlegend"></div>
+    </div>
+    <aside id="wpanel" aria-live="polite"></aside>
+  </section>
   <section class="view" id="view-sources" hidden><div class="page"><div class="col" id="sources-body"></div></div></section>
   <section class="view" id="view-about" hidden><div class="page"><div class="col" id="about-body"></div></div></section>
 </main>
 
 <dialog id="dlg" aria-labelledby="dlg-title"><form id="dlg-form" novalidate></form></dialog>
 
+<script src="vendor/d3-array.min.js"></script>
+<script src="vendor/d3-geo.min.js"></script>
+<script src="vendor/topojson-client.min.js"></script>
 <script src="app.js"></script>
 </body>
 </html>
