@@ -83,6 +83,7 @@ function trunc(s,n){s=String(s);return s.length>n?s.slice(0,n-1)+"…":s}
 function route(){
   var h=decodeURIComponent(location.hash.replace(/^#/,""));
   if(h==="sources"||h==="about"){S.view=h;render();return}
+  if(h==="about-us"){S.view="us";render();window.scrollTo(0,0);return}
   if(h==="world"||h.indexOf("w-")===0){var was=S.csel;S.view="world";S.csel=h==="world"?null:h.slice(2);if(S.csel&&S.csel!==was&&Wd.fitNext!==false)Wd.fitNext=true;render();return}
   S.view="map";S.sel=null;
   if(!S.loaded){render();return}
@@ -411,6 +412,33 @@ function renderAbout(){
   $("about-body").innerHTML=h;
 }
 
+/* ---------- about us ---------- */
+function renderUs(){
+  var h='<p class="kicker">About us</p><h2>Why Sunlight exists</h2>'
+    +'<p class="pull">Democracy works best when the people in it can see clearly.</p>'
+    +'<p class="intro">Every day, people are asked to make choices about climate, money, technology and power: at the ballot box, at work and at home. Making those choices well means knowing what the evidence says. Too often that evidence is scattered, hard to read or locked away. Sunlight brings it into the open.</p>'
+
+    +'<div class="sec"><div class="sec-h"><h3>Where we stand</h3></div>'
+    +'<p class="intro" style="margin-top:14px">We believe a healthy democracy depends on people being able to find out what is true about the problems they face, and to judge for themselves what should be done about them.</p>'
+    +'<p class="intro">We start from two commitments: <b class="ui">the equal worth of every person</b>, and <b class="ui">care for the living world</b>. We say this openly because every project has a point of view, and you deserve to know ours.</p>'
+    +'<p class="intro">These values guide why we built Sunlight and which questions we ask. They do not decide the answers. Where the evidence is settled, we say so plainly. Where qualified experts disagree, we set out each side with its sources and what both sides accept.</p></div>'
+
+    +'<div class="sec"><div class="sec-h"><h3>Our mission</h3></div>'
+    +'<ol class="principles" style="margin-top:16px">'
+    +'<li><span><b>An informed, educated democracy.</b> We want everyone to have a fair starting point: clear, plain-language accounts of what research shows about the major crises of our time.</span></li>'
+    +'<li><span><b>Connecting the issues.</b> Climate change, inequality, misinformation and the state of democracy are usually reported as separate stories. They are not. They feed one another in ways that matter. Our map shows those links, and every link is a sourced claim in its own right.</span></li>'
+    +'<li><span><b>Opening up the evidence.</b> Much of the best research sits behind journal paywalls or inside long technical reports. We summarise it, cite it in full, and mark the sources that anyone can read for free.</span></li>'
+    +'</ol></div>'
+
+    +'<div class="sec"><div class="sec-h"><h3>Judge for yourself</h3></div>'
+    +'<p class="intro" style="margin-top:14px">We would rather show you the evidence than ask you to trust us. Every finding is rated for how strong its evidence is, and every claim lists its sources. We draw on as wide a range of sources as we can, with peer-reviewed research and scientific assessments first. Follow the links, read the sources, and make up your own mind.</p>'
+    +'<div class="backup"><a class="btn" href="#about">How we rate evidence</a><a class="btn" href="#sources">Browse all sources</a><a class="btn" href="#map">Explore the map</a></div></div>'
+
+    +'<div class="sec"><div class="sec-h"><h3>A work in progress</h3></div>'
+    +'<p class="intro" style="margin-top:14px">Sunlight is new. We are still checking entries against their full sources, and adding topics and countries. Much of the research we cite so far comes from a handful of wealthy countries, and we want to widen that. Treat it as a careful first draft, and check the sources behind anything that matters to you.</p></div>';
+  $("us-body").innerHTML=h;
+}
+
 /* ---------- forms ---------- */
 var F=null;
 function pickHtml(key,checked){
@@ -717,11 +745,12 @@ function bindWorld(){
 
 /* ---------- render ---------- */
 function render(){
-  ["map","world","sources","about"].forEach(function(v){$("view-"+v).hidden=S.view!==v});
+  ["map","world","sources","about","us"].forEach(function(v){$("view-"+v).hidden=S.view!==v});
   document.querySelectorAll("[data-tab]").forEach(function(a){if(a.getAttribute("data-tab")===S.view)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
   if(S.view==="map"){renderMap();renderLegend();renderPanel()}
   else if(S.view==="world")renderWorld();
   else if(S.view==="sources")renderSources();
+  else if(S.view==="us")renderUs();
   else renderAbout();
 }
 bindMap();bindWorld();init();

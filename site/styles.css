@@ -242,3 +242,8 @@ a.btn{display:inline-block;text-decoration:none}
 .country.sel,.country.sel:hover{fill:var(--mark);fill-opacity:1;stroke:var(--ink);stroke-width:1.6}
 .swatch{display:inline-block;width:14px;height:10px;border:1px solid var(--muted);background:var(--surface);border-radius:2px}
 .swatch.has{background:var(--accent);opacity:.5}
+
+/* about us */
+.pull{font-family:var(--display);font-size:24px;font-weight:700;line-height:1.25;letter-spacing:-.01em;border-left:6px solid var(--mark);padding:2px 0 2px 16px;margin:18px 0 6px;max-width:30ch;text-wrap:balance}
+#us-body .intro{margin-top:12px}
+#us-body .backup .btn{font-size:14px}
