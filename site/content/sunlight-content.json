@@ -19,7 +19,179 @@
       "order": 3
     }
   },
-  "countries": {},
+  "countries": {
+    "826": {
+      "name": "United Kingdom",
+      "summary": "The UK has more than halved its greenhouse gas emissions since 1990, yet its climate is visibly changing and its wildlife is still declining. More than a quarter of children live in relative poverty once housing costs are counted, trust in government is at a record low, and economists disagree about how much leaving the EU has cost.",
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "The UK's greenhouse gas emissions in 2024 were 53% lower than in 1990, and 3% lower than in 2023. The country's last coal-fired power station closed in September 2024.",
+          "strength": "strong",
+          "note": "Official statistics. They count only emissions produced inside the UK, not those from making the goods it imports.",
+          "sources": [
+            "desnz-2026"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "The UK is warming. The decade 2015–2024 was 1.24°C warmer than 1961–1990, and sea levels around the UK have risen by about 19.5 cm since 1901, two-thirds of that in the last three decades.",
+          "strength": "settled",
+          "note": "From the Met Office's annual, peer-reviewed report on the UK climate, built on long instrumental records.",
+          "sources": [
+            "kendon-2025"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "Across 753 land and freshwater species tracked since 1970, UK wildlife has fallen in abundance by 19% on average. About one in six species is at risk of being lost from Great Britain.",
+          "strength": "strong",
+          "note": "Compiled by about 50 conservation and research organisations from monitoring data. Long-term data exist for only a fraction of species.",
+          "sources": [
+            "son-2023"
+          ]
+        },
+        {
+          "id": "c4",
+          "text": "In 2024–25, 27% of UK children lived in relative poverty once housing costs are taken into account, meaning their household income was below 60% of the typical (median) income.",
+          "strength": "strong",
+          "note": "Official statistics from a large household survey. Relative poverty measures how far incomes fall below typical incomes, not hardship directly.",
+          "sources": [
+            "dwp-2026"
+          ]
+        },
+        {
+          "id": "c5",
+          "text": "In 2024 only 12% of people in Britain trusted governments to put the nation's interests above their party's 'just about always' or 'most of the time', the lowest since the question was first asked in 1986, when it was 40%. 46% said they 'almost never' did.",
+          "strength": "strong",
+          "note": "British Social Attitudes is a long-running survey of a random sample of the public.",
+          "sources": [
+            "bsa42-2025"
+          ]
+        },
+        {
+          "id": "c6",
+          "text": "The V-Dem Institute lists the UK among ten countries that began moving away from democracy in 2025. The UK still ranks 30th of 179 countries on V-Dem's Liberal Democracy Index.",
+          "strength": "emerging",
+          "note": "The report does not say which UK measures declined, and a new episode of decline can stop or reverse. V-Dem's scores rest partly on expert judgement; see the debate under Authoritarianism and the far right.",
+          "sources": [
+            "vdem-2026"
+          ]
+        }
+      ],
+      "debates": [
+        {
+          "id": "d1",
+          "question": "How much has leaving the EU cost the UK economy?",
+          "agreed": "Leaving the EU raised the cost of trading with the UK's largest trading partner, and most economists expect this to leave the UK somewhat poorer over time. The dispute is over how large the effect is, and whether it can be separated from Covid, the energy price shock and other events since 2016.",
+          "positions": [
+            {
+              "id": "p1",
+              "label": "A large cost, already visible",
+              "text": "Bloom and colleagues combine surveys of UK businesses with comparisons against similar economies. They estimate that by the end of 2025 Brexit had reduced UK GDP by 6% to 8%, investment by 12% to 13%, and both employment and productivity by 3% to 4%. Their paper is a working paper and has not yet been peer reviewed.",
+              "sources": [
+                "bloom-2025"
+              ]
+            },
+            {
+              "id": "p2",
+              "label": "A smaller long-run cost",
+              "text": "The Office for Budget Responsibility, the UK's official forecaster, assumes Brexit will leave productivity 4% lower in the long run than if the UK had stayed in the EU, with exports and imports both around 15% lower.",
+              "sources": [
+                "obr-brexit"
+              ]
+            },
+            {
+              "id": "p3",
+              "label": "Too early to measure reliably",
+              "text": "Gudgin argues that methods comparing the UK with a blend of similar economies treat every difference since 2016 as an effect of Brexit, when Covid and the business cycle also matter. In 2022 he found UK growth close to the G7 average and judged the wider effect on GDP likely to be small. He wrote this before the newer estimates above.",
+              "sources": [
+                "gudgin-2022"
+              ]
+            }
+          ]
+        }
+      ],
+      "topics": [
+        "climate-change",
+        "ecological-breakdown",
+        "economic-inequality",
+        "polarisation-trust",
+        "authoritarianism-far-right"
+      ]
+    },
+    "840": {
+      "name": "United States",
+      "summary": "The United States has put more carbon dioxide into the air than any other country, and is warming faster than the world as a whole. Wealth is more concentrated at the top than at any point since the Federal Reserve's records began in 1989, Americans die younger than people in other rich countries, and the country's democracy scores fell sharply in 2025.",
+      "updated": "2026-11-13",
+      "claims": [
+        {
+          "id": "c1",
+          "text": "Since 1850 the United States has emitted more carbon dioxide than any other country: about a fifth of the world total, nearly twice China's share.",
+          "strength": "strong",
+          "note": "Carbon Brief analysis of Global Carbon Project and other datasets, covering 1850–2021 and including emissions from land use. Shares shift slightly with the data and years used.",
+          "sources": [
+            "evans-2021"
+          ]
+        },
+        {
+          "id": "c2",
+          "text": "Since 1970 the lower 48 states have warmed by about 1.4°C (2.5°F) and Alaska by about 2.3°C (4.2°F), compared with about 0.9°C (1.7°F) for the world as a whole.",
+          "strength": "settled",
+          "note": "From the Fifth National Climate Assessment, the US government's official review of climate science, published in 2023.",
+          "sources": [
+            "marvel-2023"
+          ]
+        },
+        {
+          "id": "c3",
+          "text": "The richest 1% of US households held 32.5% of all household wealth in mid-2026, up from 22.8% in 1989. The poorer half of households held 2.3%.",
+          "strength": "strong",
+          "note": "Federal Reserve estimates that combine its household wealth survey with the national accounts. How much income inequality has risen is debated; see Economic inequality and concentrated wealth.",
+          "sources": [
+            "fed-dfa-2026"
+          ]
+        },
+        {
+          "id": "c4",
+          "text": "Americans die younger than people in other rich countries. Had the US matched the average death rates of 21 other high-income countries, about 705,000 fewer Americans would have died in 2023, including 46% of all deaths under age 65.",
+          "strength": "strong",
+          "note": "Peer-reviewed and free to read. Results depend somewhat on which countries are compared. The authors point to drug overdoses, gun deaths and heart and metabolic disease as likely causes.",
+          "sources": [
+            "bor-2025"
+          ]
+        },
+        {
+          "id": "c5",
+          "text": "Over four decades, hostility between supporters of opposing parties rose faster in the United States than in eleven other wealthy democracies.",
+          "strength": "strong",
+          "note": "Built from 149 election surveys. Question wording varies between countries and years, which limits precision.",
+          "sources": [
+            "boxell-2024"
+          ]
+        },
+        {
+          "id": "c6",
+          "text": "In 2025 the US score on V-Dem's Liberal Democracy Index fell by 24% in one year, and its world rank dropped from 20th to 51st of 179. V-Dem calls the speed of the decline unprecedented in modern times, and points to power being concentrated in the presidency and checks and balances being undercut.",
+          "strength": "strong",
+          "note": "Election measures were not re-scored in 2025, as there was no national election. V-Dem's scores rest partly on expert judgement; see the debate under Authoritarianism and the far right.",
+          "sources": [
+            "vdem-2026"
+          ]
+        }
+      ],
+      "debates": [],
+      "topics": [
+        "climate-change",
+        "climate-obstruction",
+        "economic-inequality",
+        "health-pandemics",
+        "polarisation-trust",
+        "authoritarianism-far-right"
+      ]
+    }
+  },
   "topics": {
     "climate-change": {
       "title": "Climate change",
@@ -984,6 +1156,138 @@
     }
   },
   "sources": {
+    "desnz-2026": {
+      "short": "DESNZ 2026",
+      "authors": "Department for Energy Security and Net Zero",
+      "year": "2026",
+      "title": "2024 UK Greenhouse Gas Emissions, Final Figures",
+      "venue": "Accredited official statistics, 5 February 2026",
+      "url": "https://www.gov.uk/government/statistics/final-uk-greenhouse-gas-emissions-statistics-1990-to-2024",
+      "kind": "data",
+      "open": true,
+      "note": ""
+    },
+    "kendon-2025": {
+      "short": "Kendon et al. 2025",
+      "authors": "Kendon, M., et al.",
+      "year": "2025",
+      "title": "State of the UK Climate 2024",
+      "venue": "International Journal of Climatology, 45(S1), e70010",
+      "url": "https://doi.org/10.1002/joc.70010",
+      "kind": "article",
+      "open": true,
+      "note": "The Met Office's annual report on the UK climate."
+    },
+    "son-2023": {
+      "short": "State of Nature 2023",
+      "authors": "Burns, F., et al.",
+      "year": "2023",
+      "title": "State of Nature 2023",
+      "venue": "The State of Nature partnership",
+      "url": "https://stateofnature.org.uk/",
+      "kind": "report",
+      "open": true,
+      "note": "Written by a partnership of around 50 conservation and research organisations."
+    },
+    "dwp-2026": {
+      "short": "DWP 2026",
+      "authors": "Department for Work and Pensions",
+      "year": "2026",
+      "title": "Households Below Average Income: an analysis of the UK income distribution, FYE 1995 to FYE 2025",
+      "venue": "Accredited official statistics, 26 March 2026",
+      "url": "https://www.gov.uk/government/statistics/households-below-average-income-for-financial-years-ending-1995-to-2025/households-below-average-income-an-analysis-of-the-uk-income-distribution-fye-1995-to-fye-2025",
+      "kind": "data",
+      "open": true,
+      "note": ""
+    },
+    "bsa42-2025": {
+      "short": "Curtice et al. 2025",
+      "authors": "Curtice, J., Scholes, A., & Chabdu, A.",
+      "year": "2025",
+      "title": "Britain's democracy: a health check (British Social Attitudes 42)",
+      "venue": "National Centre for Social Research",
+      "url": "https://natcen.ac.uk/publications/bsa-42-britains-democracy",
+      "kind": "report",
+      "open": true,
+      "note": ""
+    },
+    "bloom-2025": {
+      "short": "Bloom et al. 2025",
+      "authors": "Bloom, N., Bunn, P., Mizen, P., Smietanka, P., Thwaites, G., & Abrahams, S.",
+      "year": "2025",
+      "title": "The Economic Impact of Brexit",
+      "venue": "NBER Working Paper 34459 (revised June 2026)",
+      "url": "https://doi.org/10.3386/w34459",
+      "kind": "report",
+      "open": false,
+      "note": "A working paper, not yet peer reviewed."
+    },
+    "obr-brexit": {
+      "short": "OBR 2026",
+      "authors": "Office for Budget Responsibility",
+      "year": "2026",
+      "title": "Brexit analysis",
+      "venue": "Forecasts in depth, updated for the March 2026 Economic and fiscal outlook",
+      "url": "https://obr.uk/forecasts-in-depth/the-economy-forecast/brexit-analysis/",
+      "kind": "report",
+      "open": true,
+      "note": "The forecaster's working assumption, based on a range of external studies."
+    },
+    "gudgin-2022": {
+      "short": "Gudgin 2022",
+      "authors": "Gudgin, G.",
+      "year": "2022",
+      "title": "Why the Centre for European Reform is wrong about Brexit",
+      "venue": "Policy Exchange, 17 June 2022",
+      "url": "https://policyexchange.org.uk/?p=30523",
+      "kind": "other",
+      "open": true,
+      "note": "Think-tank commentary by an economist, not peer reviewed."
+    },
+    "evans-2021": {
+      "short": "Evans 2021",
+      "authors": "Evans, S.",
+      "year": "2021",
+      "title": "Analysis: Which countries are historically responsible for climate change?",
+      "venue": "Carbon Brief, 5 October 2021",
+      "url": "https://www.carbonbrief.org/analysis-which-countries-are-historically-responsible-for-climate-change/",
+      "kind": "report",
+      "open": true,
+      "note": "Data analysis by a specialist climate publication, not peer reviewed."
+    },
+    "marvel-2023": {
+      "short": "Marvel et al. 2023",
+      "authors": "Marvel, K., Su, W., et al.",
+      "year": "2023",
+      "title": "Chapter 2: Climate trends. In Fifth National Climate Assessment",
+      "venue": "U.S. Global Change Research Program, Washington, DC",
+      "url": "https://doi.org/10.7930/NCA5.2023.CH2",
+      "kind": "assessment",
+      "open": true,
+      "note": ""
+    },
+    "fed-dfa-2026": {
+      "short": "Federal Reserve 2026",
+      "authors": "Board of Governors of the Federal Reserve System",
+      "year": "2026",
+      "title": "Distributional Financial Accounts",
+      "venue": "Federal Reserve, data to the second quarter of 2026",
+      "url": "https://www.federalreserve.gov/releases/z1/dataviz/dfa/",
+      "kind": "data",
+      "open": true,
+      "note": "Figures read from the FRED series WFRBST01134 (top 1%) and WFRBSB50215 (bottom 50%)."
+    },
+    "bor-2025": {
+      "short": "Bor et al. 2025",
+      "authors": "Bor, J., Raquib, R. V., Wrigley-Field, E., Woolhandler, S., Himmelstein, D. U., & Stokes, A. C.",
+      "year": "2025",
+      "title": "Excess US Deaths Before, During, and After the COVID-19 Pandemic",
+      "venue": "JAMA Health Forum, 6(5), e251118",
+      "url": "https://doi.org/10.1001/jamahealthforum.2025.1118",
+      "kind": "article",
+      "open": true,
+      "note": ""
+    },
     "ipcc-2023": {
       "short": "IPCC 2023",
       "authors": "IPCC",
