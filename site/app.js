@@ -9,12 +9,12 @@ var EV={
 };
 var EV_ORDER=["settled","strong","emerging","contested"];
 var KINDS={article:"Peer-reviewed article",assessment:"Scientific assessment",report:"Institutional report",book:"Book",data:"Dataset",other:"Other"};
-var KEYS=["topics","links","sources"];
+var KEYS=["groups","topics","links","sources"];
 
 var CONTENT_URL="content/sunlight-content.json";
 /* Stage 1 is a read-only public site. Editing returns once editor log-ins exist (stage 2). */
-var S={topics:new Map(),links:new Map(),sources:new Map(),view:"map",sel:null,canWrite:false,loaded:false};
-var drag=null,renderQueued=false;
+var S={groups:new Map(),topics:new Map(),links:new Map(),sources:new Map(),view:"map",sel:null,open:null,canWrite:false,loaded:false};
+
 
 /* ---------- helpers ---------- */
 function $(id){return document.getElementById(id)}
@@ -53,123 +53,193 @@ function init(){
     if(!r.ok)throw new Error("HTTP "+r.status);return r.json();
   }).then(function(d){
     KEYS.forEach(function(k){S[k]=new Map(Object.entries((d&&d[k])||{}))});
-    S.loaded=true;route();
+    normalise();S.loaded=true;route();
   }).catch(function(){
     S.loaded=true;setNotice("The map could not be loaded. Check your connection and reload the page.");route();
   });
 }
 function applyAccess(){document.body.classList.toggle("ro",S.canWrite===false)}
 
+/* ---------- areas ---------- */
+/* Each topic belongs to one area (content key "groups"). The map opens on the areas;
+   opening an area shows its topics, plus the topics in other areas they connect to. */
+function normalise(){
+  var stray=false;S.topics.forEach(function(t){if(!S.groups.has(t.group))stray=true});
+  if(stray&&!S.groups.has("_other"))S.groups.set("_other",{title:"Other topics",summary:"Topics not yet placed in an area.",order:999});
+  S.topics.forEach(function(t){if(!S.groups.has(t.group))t.group="_other"});
+}
+function groupOf(tid){var t=S.topics.get(tid);return t?t.group:null}
+function groupTitle(gid){var g=S.groups.get(gid);return g?g.title:""}
+function sortedGroups(){return Array.from(S.groups.entries()).sort(function(a,b){return (a[1].order||0)-(b[1].order||0)||String(a[1].title).localeCompare(String(b[1].title))})}
+function groupTopics(gid){return sortedTopics().filter(function(e){return e[1].group===gid})}
+function pairLinks(x,y){var out=[];S.links.forEach(function(l,id){var ga=groupOf(l.a),gb=groupOf(l.b);if((ga===x&&gb===y)||(ga===y&&gb===x))out.push([id,l])});return out}
+function pl(n,word){return n+" "+word+(n===1?"":"s")}
+function trunc(s,n){s=String(s);return s.length>n?s.slice(0,n-1)+"…":s}
+
 /* ---------- routing ---------- */
+/* #map: all areas. #g-<area>: one area open. #t-<topic>, #c-<connection>: selected inside its area.
+   #p-<area>~<area>: the connections between two areas. */
 function route(){
-  var h=location.hash.replace(/^#/,"");
-  if(h==="sources"||h==="about"){S.view=h}
-  else{
-    S.view="map";
-    if(h.indexOf("t-")===0&&S.topics.has(h.slice(2)))S.sel={type:"topic",id:h.slice(2)};
-    else if(h.indexOf("c-")===0&&S.links.has(h.slice(2)))S.sel={type:"link",id:h.slice(2)};
-    else if(h===""||h==="map"||S.loaded)S.sel=null;
+  var h=decodeURIComponent(location.hash.replace(/^#/,""));
+  if(h==="sources"||h==="about"){S.view=h;render();return}
+  S.view="map";S.sel=null;
+  if(!S.loaded){render();return}
+  var id=h.slice(2);
+  if(h.indexOf("t-")===0&&S.topics.has(id)){S.sel={type:"topic",id:id};S.open=groupOf(id)}
+  else if(h.indexOf("c-")===0&&S.links.has(id)){
+    var l=S.links.get(id),ga=groupOf(l.a),gb=groupOf(l.b);
+    S.sel={type:"link",id:id};if(S.open!==ga&&S.open!==gb)S.open=ga;
   }
+  else if(h.indexOf("g-")===0&&S.groups.has(id)){S.sel={type:"group",id:id};S.open=id}
+  else if(h.indexOf("p-")===0){
+    var pr=id.split("~");S.open=null;
+    if(pr.length===2&&S.groups.has(pr[0])&&S.groups.has(pr[1])&&pr[0]!==pr[1])S.sel={type:"pair",a:pr[0],b:pr[1]};
+  }
+  else S.open=null;
   render();
 }
 function go(hash){if(location.hash===hash)route();else location.hash=hash}
-function select(type,id){go(type?"#"+(type==="topic"?"t-":"c-")+id:"#map")}
+var PREFIX={topic:"t-",link:"c-",group:"g-",pair:"p-"};
+function select(type,id){go(type?"#"+PREFIX[type]+id:"#map")}
 window.addEventListener("hashchange",function(){route();if(S.view==="map")$("panel").scrollTop=0});
 
 /* ---------- map ---------- */
-function wrap(t,max){
+var CW=300,CH=140,GW=196,GH=60,GX=1000-GW/2-14;
+function wrap(t,max,maxLines){
+  maxLines=maxLines||3;
   var w=String(t).split(/\s+/),lines=[],cur="";
   w.forEach(function(x){if(cur&&(cur+" "+x).length>max){lines.push(cur);cur=x}else cur=cur?cur+" "+x:x});
   if(cur)lines.push(cur);
-  if(lines.length>3){lines[2]=lines.slice(2).join(" ");lines.length=3;if(lines[2].length>max+2)lines[2]=lines[2].slice(0,max+1)+"…"}
+  if(lines.length>maxLines){
+    var last=lines.slice(maxLines-1).join(" ");lines.length=maxLines;
+    lines[maxLines-1]=last.length>max?last.slice(0,max-1).replace(/\s+\S*$/,"")+"…":last;
+  }
   return lines;
 }
-function pos(t,i,n){
-  if(typeof t.x==="number"&&typeof t.y==="number")return{x:t.x,y:t.y};
-  var a=(i/Math.max(n,1))*Math.PI*2-Math.PI/2;return{x:W/2+Math.cos(a)*330,y:H/2+Math.sin(a)*210};
+function corePos(i,n){
+  if(n===1)return{x:500,y:300};
+  if(n===2)return[{x:270,y:300},{x:730,y:300}][i];
+  if(n===3)return[{x:245,y:170},{x:755,y:170},{x:500,y:450}][i];
+  var a=-Math.PI/2+i/n*Math.PI*2;return{x:500+Math.cos(a)*330,y:310+Math.sin(a)*210};
 }
-function freeSpot(){
-  var best={x:W/2,y:H/2},bestD=-1,pts=[];
-  S.topics.forEach(function(t){if(typeof t.x==="number")pts.push(t)});
-  for(var x=120;x<=880;x+=95)for(var y=70;y<=550;y+=80){
-    var d=Infinity;pts.forEach(function(p){d=Math.min(d,Math.hypot((p.x-x)/1.6,p.y-y))});
-    if(d>bestD){bestD=d;best={x:x,y:y}}
+function lineXY(a,b){return 'x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"'}
+function linkLine(id,l,a,b,on,isSel){
+  var k=EV[l.strength]?l.strength:"emerging",ta=S.topics.get(l.a),tb=S.topics.get(l.b);
+  return '<g class="edge-g'+(isSel?" sel":"")+(on?"":" dim")+'" data-link="'+esc(id)+'" tabindex="0" role="button" aria-label="Connection between '+esc(ta?ta.title:"?")+' and '+esc(tb?tb.title:"?")+': '+esc(l.label||"")+'. Evidence: '+EV[k].label+'">'
+    +'<line class="edge '+k+'" '+lineXY(a,b)+'/><line class="edge-hit" '+lineXY(a,b)+'/></g>';
+}
+function topicNode(id,t,p,isSel,on,why){
+  var lines=wrap(t.title,20),n3=lines.length===3;
+  var nc=(t.claims||[]).length,nd=(t.debates||[]).length;
+  var meta=pl(nc,"finding")+(nd?" · "+pl(nd,"debate"):"");
+  var ty=n3?-17:lines.length===2?-12:-3,step=n3?15:18;
+  return '<g class="node'+(isSel?" sel":"")+(on?"":" dim")+'" data-node="'+esc(id)+'" transform="translate('+p.x+','+p.y+')" tabindex="0" role="button" aria-label="'+esc(t.title)+', '+esc(meta)+'">'
+    +'<rect x="'+(-NW/2)+'" y="'+(-NH/2)+'" width="'+NW+'" height="'+NH+'" rx="9"/>'
+    +lines.map(function(ln,i){return '<text class="node-title'+(n3?" sm":"")+'" y="'+(ty+i*step)+'">'+esc(ln)+'</text>'}).join("")
+    +'<text class="node-meta'+(why?" why":"")+'" y="'+(n3?28:lines.length===2?24:18)+'">'+esc(why||meta)+'</text></g>';
+}
+function ghostNode(id,t,p,on,why){
+  var lines=wrap(t.title,24,2),ty=lines.length===2?-13:-4;
+  return '<g class="node ghost'+(on?"":" dim")+'" data-node="'+esc(id)+'" transform="translate('+p.x+','+p.y+')" tabindex="0" role="button" aria-label="'+esc(t.title)+', in '+esc(groupTitle(t.group))+'. Go to this topic">'
+    +'<rect x="'+(-GW/2)+'" y="'+(-GH/2)+'" width="'+GW+'" height="'+GH+'" rx="8"/>'
+    +lines.map(function(ln,i){return '<text class="node-title" y="'+(ty+i*15)+'">'+esc(ln)+'</text>'}).join("")
+    +'<text class="node-meta'+(why?" why":"")+'" y="'+(GH/2-9)+'">'+esc(why||"Go to topic →")+'</text></g>';
+}
+function overviewMap(){
+  var gs=sortedGroups().filter(function(e){return groupTopics(e[0]).length}),P={},h="",sel=S.sel;
+  gs.forEach(function(e,i){P[e[0]]=corePos(i,gs.length)});
+  for(var i=0;i<gs.length;i++)for(var j=i+1;j<gs.length;j++){
+    var ga=gs[i][0],gb=gs[j][0],ls=pairLinks(ga,gb);if(!ls.length)continue;
+    var a=P[ga],b=P[gb],isSel=sel&&sel.type==="pair"&&((sel.a===ga&&sel.b===gb)||(sel.a===gb&&sel.b===ga));
+    h+='<g class="edge-g'+(isSel?" sel":"")+'" data-pair="'+esc(ga+"~"+gb)+'" tabindex="0" role="button" aria-label="'+pl(ls.length,"connection")+' between '+esc(gs[i][1].title)+' and '+esc(gs[j][1].title)+'">'
+      +'<line class="edge agg" style="stroke-width:'+Math.min(3+ls.length*1.5,14)+'px" '+lineXY(a,b)+'/><line class="edge-hit" '+lineXY(a,b)+'/>'
+      +'<text class="edge-label" x="'+(a.x+b.x)/2+'" y="'+((a.y+b.y)/2+4)+'">'+pl(ls.length,"connection")+'</text></g>';
   }
-  return best;
+  gs.forEach(function(e){
+    var gid=e[0],g=e[1],p=P[gid],tops=groupTopics(gid),isSel=sel&&sel.type==="pair"&&(sel.a===gid||sel.b===gid);
+    var shown=tops.length>5?tops.slice(0,4):tops;
+    h+='<g class="node core'+(isSel?" sel":"")+'" data-group="'+esc(gid)+'" transform="translate('+p.x+','+p.y+')" tabindex="0" role="button" aria-label="'+esc(g.title)+', '+pl(tops.length,"topic")+'. Open this area">'
+      +'<rect x="'+(-CW/2)+'" y="'+(-CH/2)+'" width="'+CW+'" height="'+CH+'" rx="12"/>'
+      +'<text class="core-title" y="'+(-CH/2+32)+'">'+esc(g.title)+'</text>'
+      +shown.map(function(t,i){return '<text class="node-sub" y="'+(-CH/2+57+i*16)+'">'+esc(trunc(t[1].title,40))+'</text>'}).join("")
+      +(shown.length<tops.length?'<text class="node-sub" y="'+(-CH/2+57+4*16)+'">and '+(tops.length-4)+' more</text>':"")+'</g>';
+  });
+  return h;
 }
-function renderMap(){
-  var body=$("map-body"),html="",sel=S.sel,near=null,why={};
-  var entries=Array.from(S.topics.entries()),P={};
-  entries.forEach(function(e,i){P[e[0]]=pos(e[1],i,entries.length)});
+function groupMap(gid){
+  var inner=groupTopics(gid),n=inner.length,P={},sel=S.sel,extCount=new Map(),ext=new Map();
+  inner.forEach(function(e){extCount.set(e[0],0)});
+  S.links.forEach(function(l){var ia=extCount.has(l.a),ib=extCount.has(l.b);if(ia!==ib){var k=ia?l.a:l.b;extCount.set(k,extCount.get(k)+1)}});
+  /* topics of this area sit on a ring; the ones with most outside links go nearest the right-hand column */
+  var cx=345,cy=305,rx=n<=1?0:205,ry=n<=2?0:195,slots=[];
+  for(var i=0;i<n;i++){var a=i/n*Math.PI*2;slots.push({x:Math.round(cx+Math.cos(a)*rx),y:Math.round(cy+Math.sin(a)*ry)})}
+  slots.sort(function(a,b){return b.x-a.x||a.y-b.y});
+  inner.slice().sort(function(a,b){return extCount.get(b[0])-extCount.get(a[0])||a[1].title.localeCompare(b[1].title)}).forEach(function(e,i){P[e[0]]=slots[i]});
+  /* connected topics in other areas: a column on the right, grouped by area */
+  S.links.forEach(function(l){
+    var ia=extCount.has(l.a),ib=extCount.has(l.b);if(ia===ib)return;
+    var o=ia?l.b:l.a,inn=ia?l.a:l.b;if(!S.topics.has(o))return;
+    if(!ext.has(o))ext.set(o,[]);ext.get(o).push(P[inn].y);
+  });
+  var eg=sortedGroups().map(function(g){
+    var items=[];ext.forEach(function(ys,tid){if(groupOf(tid)===g[0])items.push({id:tid,y:ys.reduce(function(s,v){return s+v},0)/ys.length})});
+    items.sort(function(a,b){return a.y-b.y||S.topics.get(a.id).title.localeCompare(S.topics.get(b.id).title)});
+    return{title:g[1].title,items:items};
+  }).filter(function(g){return g.items.length});
+  var count=0;eg.forEach(function(g){count+=g.items.length});
+  var HEAD=26,step=count?Math.min(GH+10,(600-eg.length*HEAD)/count):0,y=(620-eg.length*HEAD-count*step)/2,heads="";
+  eg.forEach(function(g){
+    heads+='<text class="ext-head" x="'+GX+'" y="'+(y+17)+'">'+esc(g.title.toUpperCase())+'</text>';y+=HEAD;
+    g.items.forEach(function(it){P[it.id]={x:GX,y:Math.round(y+step/2),ghost:true};y+=step});
+  });
+  /* what to emphasise */
+  var near=null,why={};
   if(sel&&sel.type==="topic"){near=new Set([sel.id]);topicLinks(sel.id).forEach(function(x){
-    near.add(x[1].a);near.add(x[1].b);
-    var o=x[1].a===sel.id?x[1].b:x[1].a,lb=x[1].label||"";if(lb.length>31)lb=lb.slice(0,30)+"…";
+    var o=x[1].a===sel.id?x[1].b:x[1].a,lb=trunc(x[1].label||"",31);near.add(o);
     if(lb)why[o]=why[o]?"Several connections":lb;
   })}
   if(sel&&sel.type==="link"){var L=S.links.get(sel.id);near=new Set(L?[L.a,L.b]:[])}
+  var edges="",nodes="";
   S.links.forEach(function(l,id){
-    var a=P[l.a],b=P[l.b];if(!a||!b)return;
+    var a=P[l.a],b=P[l.b];if(!a||!b||(a.ghost&&b.ghost))return;
+    if(a.ghost)a={x:a.x-GW/2,y:a.y};if(b.ghost)b={x:b.x-GW/2,y:b.y};
     var isSel=sel&&sel.type==="link"&&sel.id===id;
-    var on=!sel||isSel||(sel.type==="topic"&&(l.a===sel.id||l.b===sel.id));
-    var k=EV[l.strength]?l.strength:"emerging";
-    var ta=S.topics.get(l.a).title,tb=S.topics.get(l.b).title;
-    html+='<g class="edge-g'+(isSel?" sel":"")+(on?"":" dim")+'" data-link="'+esc(id)+'" tabindex="0" role="button" aria-label="Connection between '+esc(ta)+' and '+esc(tb)+': '+esc(l.label||"")+'. Evidence: '+EV[k].label+'">'
-      +'<line class="edge '+k+'" x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"/>'
-      +'<line class="edge-hit" x1="'+a.x+'" y1="'+a.y+'" x2="'+b.x+'" y2="'+b.y+'"/>'
-      +(l.label&&S.links.size<=8?'<text class="edge-label" x="'+(a.x+b.x)/2+'" y="'+((a.y+b.y)/2+4)+'">'+esc(l.label)+'</text>':"")+'</g>';
+    var on=!sel||sel.type==="group"||isSel||(sel.type==="topic"&&(l.a===sel.id||l.b===sel.id));
+    edges+=linkLine(id,l,a,b,on,isSel);
   });
-  entries.forEach(function(e){
-    var id=e[0],t=e[1],p=P[id],lines=wrap(t.title,20),n3=lines.length===3;
-    var isSel=sel&&sel.type==="topic"&&sel.id===id,on=!near||near.has(id);
-    var nc=(t.claims||[]).length,nd=(t.debates||[]).length;
-    var meta=nc+(nc===1?" finding":" findings")+(nd?" · "+nd+(nd===1?" debate":" debates"):"");
-    var ty=n3?-17:lines.length===2?-12:-3,step=n3?15:18;
-    html+='<g class="node'+(isSel?" sel":"")+(on?"":" dim")+'" data-node="'+esc(id)+'" transform="translate('+p.x+','+p.y+')" tabindex="0" role="button" aria-label="'+esc(t.title)+', '+esc(meta)+'">'
-      +'<rect x="'+(-NW/2)+'" y="'+(-NH/2)+'" width="'+NW+'" height="'+NH+'" rx="9"/>'
-      +lines.map(function(ln,i){return '<text class="node-title'+(n3?" sm":"")+'" y="'+(ty+i*step)+'">'+esc(ln)+'</text>'}).join("")
-      +'<text class="node-meta'+(why[id]?" why":"")+'" y="'+(n3?28:lines.length===2?24:18)+'">'+esc(why[id]||meta)+'</text></g>';
-  });
-  if(!entries.length)html='<text class="empty-map" x="500" y="310">'+(S.loaded?"No topics yet. Use Add topic to start the map.":"Loading the map…")+'</text>';
-  body.innerHTML=html;
+  inner.forEach(function(e){nodes+=topicNode(e[0],e[1],P[e[0]],sel&&sel.type==="topic"&&sel.id===e[0],!near||near.has(e[0]),why[e[0]])});
+  ext.forEach(function(_,tid){nodes+=ghostNode(tid,S.topics.get(tid),P[tid],!near||near.has(tid),why[tid])});
+  return edges+heads+nodes;
 }
-function svgPoint(e){var svg=$("map"),pt=svg.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(svg.getScreenCTM().inverse())}
+function renderMap(){
+  var body=$("map-body");
+  if(!S.topics.size)body.innerHTML='<text class="empty-map" x="500" y="310">'+(S.loaded?"Nothing to show yet.":"Loading the map…")+'</text>';
+  else body.innerHTML=S.open&&S.groups.has(S.open)?groupMap(S.open):overviewMap();
+  var c=$("crumbs");
+  if(S.open&&S.groups.has(S.open))c.innerHTML='<a href="#map">All areas</a><span aria-hidden="true">›</span><b>'+esc(groupTitle(S.open))+'</b>';
+  else c.innerHTML='<b>All areas</b><span class="crumb-hint">Select an area to open it</span>';
+}
 function bindMap(){
   var svg=$("map");
-  svg.addEventListener("pointerdown",function(e){
-    var n=e.target.closest("[data-node]"),l=e.target.closest("[data-link]");
-    drag={node:n?n.getAttribute("data-node"):null,link:l?l.getAttribute("data-link"):null,sx:e.clientX,sy:e.clientY,moved:false};
-    if(drag.node){var t=S.topics.get(drag.node),p=svgPoint(e),cur=pos(t,0,1);
-      if(typeof t.x!=="number"){var ents=Array.from(S.topics.keys());cur=pos(t,ents.indexOf(drag.node),ents.length)}
-      drag.ox=cur.x-p.x;drag.oy=cur.y-p.y;try{svg.setPointerCapture(e.pointerId)}catch(_){}}
-  });
-  svg.addEventListener("pointermove",function(e){
-    if(!drag||!drag.node||S.canWrite===false||e.pointerType==="touch")return;
-    if(!drag.moved&&Math.hypot(e.clientX-drag.sx,e.clientY-drag.sy)<5)return;
-    drag.moved=true;var p=svgPoint(e),t=S.topics.get(drag.node);if(!t)return;
-    t.x=Math.round(Math.max(NW/2+6,Math.min(W-NW/2-6,p.x+drag.ox)));
-    t.y=Math.round(Math.max(NH/2+6,Math.min(H-NH/2-6,p.y+drag.oy)));
-    renderMap();
-  });
-  function end(){
-    if(!drag)return;var d=drag;drag=null;
-    if(d.moved){var t=S.topics.get(d.node);if(t)put("topics",d.node,t)}
-    else if(d.node)select("topic",d.node);
-    else if(d.link)select("link",d.link);
-    else if(S.sel)select(null);
-    if(renderQueued){renderQueued=false;route()}
+  function act(e){
+    var n=e.target.closest("[data-node]"),l=e.target.closest("[data-link]"),g=e.target.closest("[data-group]"),p=e.target.closest("[data-pair]");
+    if(n)select("topic",n.getAttribute("data-node"));
+    else if(l)select("link",l.getAttribute("data-link"));
+    else if(g)select("group",g.getAttribute("data-group"));
+    else if(p)select("pair",p.getAttribute("data-pair"));
+    else return false;
+    return true;
   }
-  svg.addEventListener("pointerup",end);
-  svg.addEventListener("pointercancel",function(){drag=null});
-  svg.addEventListener("keydown",function(e){
-    if(e.key!=="Enter"&&e.key!==" ")return;
-    var n=e.target.closest("[data-node]"),l=e.target.closest("[data-link]");
-    if(n){e.preventDefault();select("topic",n.getAttribute("data-node"))}
-    else if(l){e.preventDefault();select("link",l.getAttribute("data-link"))}
+  svg.addEventListener("click",function(e){
+    if(act(e))return;
+    if(S.open){if(!(S.sel&&S.sel.type==="group"))select("group",S.open)}
+    else if(S.sel)select(null);
   });
+  svg.addEventListener("keydown",function(e){if((e.key==="Enter"||e.key===" ")&&act(e))e.preventDefault()});
 }
 function renderLegend(){
   $("legend").innerHTML='<b>Strength of evidence</b>'+EV_ORDER.map(function(k){return '<span class="ev '+k+'" title="'+esc(EV[k].desc)+'">'+evGlyph(k)+EV[k].label+'</span>'}).join("")
-    +'<span class="hint">Select a topic to see how its neighbours connect, or a line to read the evidence.'+(S.canWrite===false?"":" With a mouse, drag topics to arrange them.")+'</span>';
+    +'<span class="hint">'+(S.open?"Topics on the right belong to other areas. Select one to go there.":"Thicker lines mean more connections between two areas.")+'</span>';
 }
 
 /* ---------- references ---------- */
@@ -187,12 +257,19 @@ function refsHtml(ids){
 function editBtn(act,label,extra){return '<button type="button" class="btn quiet edit" data-act="'+act+'"'+(extra||"")+'>'+(label||"Edit")+'</button>'}
 
 /* ---------- panel ---------- */
+function connBtn(act,id,to,lbl,pill,cls){
+  return '<button type="button" class="conn'+(cls?" "+cls:"")+'" data-act="'+act+'" data-id="'+esc(id)+'"><span><span class="to">'+esc(to)+'</span>'+(lbl?'<span class="lbl">'+esc(lbl)+'</span>':"")+'</span>'+(pill||"")+'</button>';
+}
+function linkName(l){var a=S.topics.get(l.a),b=S.topics.get(l.b);return (a?a.title:"?")+" and "+(b?b.title:"?")}
+function topicCounts(id,t){return pl((t.claims||[]).length,"finding")+", "+pl((t.debates||[]).length,"debate")+", "+pl(topicLinks(id).length,"connection")}
+function backBtn(gid){return gid&&S.groups.has(gid)?'<button class="back" type="button" data-act="open-group" data-id="'+esc(gid)+'">← '+esc(groupTitle(gid))+'</button>':'<button class="back" type="button" data-act="home">← All areas</button>'}
+function scaleHtml(){return '<div class="scale" style="margin-top:14px">'+EV_ORDER.map(function(k){return '<div>'+evPill(k)+'<span>'+EV[k].desc+'</span></div>'}).join("")+'</div>'}
 function renderPanel(){
   var el=$("panel"),sel=S.sel,h="";
   if(sel&&sel.type==="topic"&&S.topics.has(sel.id)){
     var t=S.topics.get(sel.id),id=sel.id;
     var claims=(t.claims||[]).slice().sort(function(a,b){return EV_ORDER.indexOf(a.strength)-EV_ORDER.indexOf(b.strength)});
-    h+='<button class="back" type="button" data-act="home">← Overview</button><p class="kicker">Topic</p><h2 class="ptitle">'+esc(t.title)+'</h2>'
+    h+=backBtn(t.group)+'<p class="kicker">Topic · '+esc(groupTitle(t.group))+'</p><h2 class="ptitle">'+esc(t.title)+'</h2>'
       +'<p class="lede">'+esc(t.summary||"")+'</p>'
       +'<div class="meta">'+(t.updated?'<span>Updated '+esc(niceDate(t.updated))+'</span>':"")+editBtn("edit-topic","Edit topic")+'</div>';
     h+='<div class="sec"><div class="sec-h"><h3>What the evidence shows</h3>'+editBtn("add-claim","Add finding")+'</div>';
@@ -216,29 +293,54 @@ function renderPanel(){
     h+='</div><div class="sec"><div class="sec-h"><h3>Connected to</h3>'+editBtn("add-link-here","Add connection")+'</div>';
     if(!ls.length)h+='<p class="none">Not connected to anything yet.</p>';
     ls.forEach(function(x){
-      var o=S.topics.get(x[1].a===id?x[1].b:x[1].a);
-      h+='<button type="button" class="conn" data-act="open-link" data-id="'+esc(x[0])+'"><span><span class="to">'+esc(o?o.title:"?")+'</span><span class="lbl">'+esc(x[1].label||"")+'</span></span>'+evPill(x[1].strength)+'</button>';
+      var oid=x[1].a===id?x[1].b:x[1].a,o=S.topics.get(oid),other=o&&o.group!==t.group;
+      h+=connBtn("open-link",x[0],o?o.title:"?",(x[1].label||"")+(other?" · in "+groupTitle(o.group):""),evPill(x[1].strength));
     });
     h+='</div>';
   } else if(sel&&sel.type==="link"&&S.links.has(sel.id)){
     var l=S.links.get(sel.id),a=S.topics.get(l.a),b=S.topics.get(l.b);
-    h+='<button class="back" type="button" data-act="home">← Overview</button><p class="kicker">Connection</p>'
+    h+=backBtn(S.open)+'<p class="kicker">Connection</p>'
       +'<h2 class="ptitle">'+esc(l.label||"Connection")+'</h2>'
       +'<p class="pair">Between <button type="button" data-act="open-topic" data-id="'+esc(l.a)+'">'+esc(a?a.title:"?")+'</button> and <button type="button" data-act="open-topic" data-id="'+esc(l.b)+'">'+esc(b?b.title:"?")+'</button></p>'
       +'<div class="item" style="border-bottom:0"><div class="item-top">'+evPill(l.strength)+editBtn("edit-link","Edit connection")+'</div>'
       +'<p class="lede">'+esc(l.text||"")+'</p>'+refsHtml(l.sources)+'</div>';
+  } else if(sel&&sel.type==="group"&&S.groups.has(sel.id)){
+    var gid=sel.id,g=S.groups.get(gid),tops=groupTopics(gid),nf=0,nd=0;
+    tops.forEach(function(e){nf+=(e[1].claims||[]).length;nd+=(e[1].debates||[]).length});
+    h+=backBtn(null)+'<p class="kicker">Area</p><h2 class="ptitle">'+esc(g.title)+'</h2>'
+      +'<p class="lede">'+esc(g.summary||"")+'</p>'
+      +'<div class="stats"><div><b>'+tops.length+'</b><span>topics</span></div><div><b>'+nf+'</b><span>findings</span></div><div><b>'+nd+'</b><span>debates</span></div></div>'
+      +'<div class="sec"><div class="sec-h"><h3>Topics in this area</h3></div>';
+    tops.forEach(function(e){h+=connBtn("open-topic",e[0],e[1].title,topicCounts(e[0],e[1]))});
+    h+='</div><div class="sec"><div class="sec-h"><h3>Links to other areas</h3></div>';
+    var any=false;
+    sortedGroups().forEach(function(o){
+      if(o[0]===gid)return;var pls=pairLinks(gid,o[0]);if(!pls.length)return;any=true;
+      h+='<p class="subhead">With '+esc(o[1].title)+'</p>';
+      pls.forEach(function(x){h+=connBtn("open-link",x[0],x[1].label||"Connection",linkName(x[1]),evPill(x[1].strength))});
+    });
+    if(!any)h+='<p class="none">No links to other areas yet.</p>';
+    h+='</div>';
+  } else if(sel&&sel.type==="pair"){
+    var pls2=pairLinks(sel.a,sel.b);
+    h+=backBtn(null)+'<p class="kicker">Between two areas</p><h2 class="ptitle">'+esc(groupTitle(sel.a))+' and '+esc(groupTitle(sel.b))+'</h2>'
+      +'<p class="pair">Open <button type="button" data-act="open-group" data-id="'+esc(sel.a)+'">'+esc(groupTitle(sel.a))+'</button> or <button type="button" data-act="open-group" data-id="'+esc(sel.b)+'">'+esc(groupTitle(sel.b))+'</button></p>'
+      +'<p class="lede" style="margin-top:12px">'+pl(pls2.length,"connection")+' link topics in these two areas. Select one to read the evidence behind it.</p>'
+      +'<div class="sec"><div class="sec-h"><h3>Connections</h3></div>';
+    pls2.forEach(function(x){h+=connBtn("open-link",x[0],x[1].label||"Connection",linkName(x[1]),evPill(x[1].strength))});
+    h+='</div>';
   } else {
-    var g=gaps();
+    var gp=gaps(),gs=sortedGroups().filter(function(e){return groupTopics(e[0]).length});
     h+='<p class="kicker">Overview</p><h2 class="ptitle">A map of connected crises</h2>'
-      +'<p class="lede">Each box is a topic. Each line is a link between two of them that research supports. Select either to read what is known, how strong the evidence is, where experts disagree, and the sources behind it.</p>'
+      +'<p class="lede">The map groups the crises of our time into '+(gs.length===3?"three":gs.length)+' areas. Open an area to see its topics and how they link to topics elsewhere. Select a topic or a line to read what is known, how strong the evidence is, where experts disagree, and the sources behind it.</p>'
       +'<div class="stats"><div><b>'+S.topics.size+'</b><span>topics</span></div><div><b>'+S.links.size+'</b><span>connections</span></div><div><b>'+S.sources.size+'</b><span>sources</span></div>'
-      +(g?'<div><b style="color:var(--danger)">'+g+'</b><span>need a source</span></div>':"")+'</div>'
-      +'<div class="sec"><div class="sec-h"><h3>How to read the ratings</h3></div><div class="scale" style="margin-top:14px">'
-      +EV_ORDER.map(function(k){return '<div>'+evPill(k)+'<span>'+EV[k].desc+'</span></div>'}).join("")+'</div></div>'
-      +'<div class="sec"><div class="sec-h"><h3>Topics</h3></div>';
+      +(gp?'<div><b style="color:var(--danger)">'+gp+'</b><span>need a source</span></div>':"")+'</div>'
+      +'<div class="sec"><div class="sec-h"><h3>How to read the ratings</h3></div>'+scaleHtml()+'</div>'
+      +'<div class="sec"><div class="sec-h"><h3>Areas and topics</h3></div>';
     if(!S.topics.size)h+='<p class="none">'+(S.loaded?"Nothing here yet.":"Loading…")+'</p>';
-    sortedTopics().forEach(function(e){
-      h+='<button type="button" class="conn" data-act="open-topic" data-id="'+esc(e[0])+'"><span><span class="to">'+esc(e[1].title)+'</span><span class="lbl">'+(e[1].claims||[]).length+' findings, '+(e[1].debates||[]).length+' debates, '+topicLinks(e[0]).length+' connections</span></span></button>';
+    gs.forEach(function(e){
+      h+=connBtn("open-group",e[0],e[1].title,e[1].summary,"","area");
+      groupTopics(e[0]).forEach(function(x){h+=connBtn("open-topic",x[0],x[1].title,topicCounts(x[0],x[1]),"","sub")});
     });
     h+='</div>';
   }
@@ -248,6 +350,7 @@ $("panel").addEventListener("click",function(e){
   var b=e.target.closest("[data-act]");if(!b)return;
   var act=b.getAttribute("data-act"),id=b.getAttribute("data-id"),pid=b.getAttribute("data-pid"),tid=S.sel&&S.sel.id;
   if(act==="home")select(null);
+  else if(act==="open-group")select("group",id);
   else if(act==="open-topic")select("topic",id);
   else if(act==="open-link")select("link",id);
   else if(act==="edit-topic")formTopic(tid);
@@ -376,12 +479,13 @@ var EV_OPTS=EV_ORDER.map(function(k){return[k,EV[k].label+": "+EV[k].desc]});
 function touch(t){t.updated=today();return t}
 
 function formTopic(id){
-  var t=id?clone(S.topics.get(id)):{title:"",summary:"",claims:[],debates:[]};
+  var gs=sortedGroups(),t=id?clone(S.topics.get(id)):{title:"",summary:"",group:S.open||(gs[0]&&gs[0][0])||"",claims:[],debates:[]};
   openForm({title:id?"Edit topic":"Add a topic",values:t,fields:[
     {key:"title",label:"Topic name",required:true},
+    {key:"group",label:"Area",type:"select",options:gs.map(function(e){return[e[0],e[1].title]})},
     {key:"summary",label:"Plain-language summary",type:"textarea",hint:"Two or three sentences a newcomer could follow."}],
     save:function(v){
-      t.title=v.title;t.summary=v.summary;
+      t.title=v.title;t.summary=v.summary;t.group=v.group;
       if(!id){id=slug(v.title);while(S.topics.has(id))id=slug(v.title)+"-"+rid("").slice(0,3);var p=freeSpot();t.x=p.x;t.y=p.y}
       put("topics",id,touch(t));select("topic",id);
     },

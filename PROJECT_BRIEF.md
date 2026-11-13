@@ -75,4 +75,5 @@ Data model (see the JSON for real examples):
 ## Progress
 
 - Stage 1 port done: `site/` is the public website (`index.html`, `styles.css`, `app.js`), read-only, loading `site/content/sunlight-content.json`. No build step. `prototype/` is kept unchanged for reference.
+- The map is organised by area: content key `groups` (planet, power, information), and each topic has a `group`. The map opens on the areas; opening one shows its topics on a ring, with linked topics from other areas in a column on the right. Layout is automatic, so topic `x`/`y` values are no longer used.
 - To preview locally, serve the `site/` folder over http (opening `index.html` directly from disk will not load the content).

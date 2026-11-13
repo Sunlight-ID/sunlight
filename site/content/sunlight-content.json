@@ -2,9 +2,27 @@
   "format": "crisis-web",
   "version": 1,
   "exported": "2026-11-13T12:00:00Z",
+  "groups": {
+    "planet": {
+      "title": "Planet and health",
+      "summary": "The living systems everyone depends on: a stable climate, working ecosystems, enough food and clean water, and protection from disease. The map shows how damage to one feeds into the others.",
+      "order": 1
+    },
+    "power": {
+      "title": "Power and democracy",
+      "summary": "Who holds power and how it is used: the health of democratic institutions, the rise of authoritarian politics, the concentration of wealth, and how societies respond to people who move.",
+      "order": 2
+    },
+    "information": {
+      "title": "Information and technology",
+      "summary": "How people come to know what is true, and the technology that shapes it: misleading information, organised campaigns to create doubt, the platforms where news spreads, artificial intelligence and surveillance.",
+      "order": 3
+    }
+  },
   "topics": {
     "climate-change": {
       "title": "Climate change",
+      "group": "planet",
       "summary": "The planet is heating because of greenhouse gases from burning coal, oil and gas, and from changes in how land is used. The basic science is not in doubt. The live questions are how fast emissions can fall and how the costs are shared.",
       "x": 500,
       "y": 178,
@@ -67,6 +85,7 @@
     },
     "ecological-breakdown": {
       "title": "Ecological breakdown",
+      "group": "planet",
       "summary": "Wild species, and the ecosystems people rely on for food, water and a stable climate, are declining worldwide. Climate change is one cause among several. The biggest causes so far are how we use land and sea, and how much we take from them.",
       "x": 370,
       "y": 46,
@@ -105,6 +124,7 @@
     },
     "ai-development": {
       "title": "AI development",
+      "group": "information",
       "summary": "General-purpose AI systems are improving quickly and being built into work, media and public services. Both the benefits and the harms are real, and much of the evidence is still coming in.",
       "x": 500,
       "y": 442,
@@ -166,6 +186,7 @@
     },
     "authoritarianism-far-right": {
       "title": "Authoritarianism and the far right",
+      "group": "power",
       "summary": "Many researchers report that elected governments in a growing number of countries are weakening courts, the press and civil rights, and that far-right parties have gained ground in many democracies. How large the shift is, and what to call it, are both debated.",
       "x": 890,
       "y": 310,
@@ -251,6 +272,7 @@
     },
     "misinformation": {
       "title": "Misinformation",
+      "group": "information",
       "summary": "False and misleading claims spread through social media, broadcast media and politics. How common they are, and how much they change what people believe or do, are argued over by researchers.",
       "x": 370,
       "y": 310,
@@ -303,6 +325,7 @@
     },
     "economic-inequality": {
       "title": "Economic inequality and concentrated wealth",
+      "group": "power",
       "summary": "Income and, even more, wealth are concentrated among a small share of the world's people. How concentrated is measured in different ways, and the methods are argued over. The pattern matters for who causes emissions, who bears the costs of change, and possibly for how people vote.",
       "x": 890,
       "y": 46,
@@ -364,6 +387,7 @@
     },
     "climate-obstruction": {
       "title": "Organised climate obstruction",
+      "group": "information",
       "summary": "Some fossil fuel companies and allied organisations have worked to cast doubt on climate science and to slow climate policy. The best-documented case is ExxonMobil, whose own scientists predicted warming accurately while its public messaging stressed uncertainty.",
       "x": 110,
       "y": 310,
@@ -401,6 +425,7 @@
     },
     "polarisation-trust": {
       "title": "Polarisation and trust in institutions",
+      "group": "power",
       "summary": "In some countries, supporters of opposing parties have come to dislike and distrust each other more, and in many countries fewer than half of people trust their national government. The picture differs sharply from country to country, and what exactly has polarised is debated.",
       "x": 760,
       "y": 442,
@@ -461,6 +486,7 @@
     },
     "platform-media-power": {
       "title": "Platform and media power",
+      "group": "information",
       "summary": "Social media platforms now carry much of the political news people see, and a handful of companies decide how it is ranked. Researchers have begun to test how far the design of those feeds shapes what people believe, with mixed results.",
       "x": 370,
       "y": 574,
@@ -513,6 +539,7 @@
     },
     "surveillance-digital-rights": {
       "title": "Surveillance and digital rights",
+      "group": "information",
       "summary": "Governments of every kind now use digital tools to watch and identify people, and many restrict what can be said and seen online. The same technologies have lawful uses, so the questions are about limits and oversight.",
       "x": 890,
       "y": 574,
@@ -541,6 +568,7 @@
     },
     "migration-displacement": {
       "title": "Migration and displacement",
+      "group": "power",
       "summary": "More people are displaced from their homes than at any time on record. Most stay inside their own country or in a neighbouring one. War and violence are the main causes of lasting displacement; disasters force many more short-term moves.",
       "x": 760,
       "y": 178,
@@ -602,6 +630,7 @@
     },
     "food-water-systems": {
       "title": "Food and water systems",
+      "group": "planet",
       "summary": "The way the world grows and eats food drives a large share of both climate change and nature loss. At the same time hundreds of millions of people go hungry and billions lack safe water.",
       "x": 630,
       "y": 46,
@@ -663,6 +692,7 @@
     },
     "health-pandemics": {
       "title": "Health and pandemics",
+      "group": "planet",
       "summary": "Most new infectious diseases reach people from animals, and the conditions that favour this are spreading. Climate change adds direct harms to health, such as extreme heat. How people respond depends partly on what information they trust.",
       "x": 240,
       "y": 178,

@@ -200,3 +200,27 @@ dialog form{display:flex;flex-direction:column;max-height:calc(100vh - 36px)}
   .scale div{grid-template-columns:1fr}
 }
 a.btn{display:inline-block;text-decoration:none}
+
+/* areas: crumbs, area boxes, topics from other areas */
+.crumbs{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap;padding:10px 20px;border-bottom:1px solid var(--line);font-family:var(--display);font-size:14px;color:var(--muted)}
+.crumbs a{font-weight:600}
+.crumbs b{color:var(--ink);font-weight:700}
+.crumb-hint{font-size:12.5px;margin-left:6px}
+.node.core rect{stroke-width:2}
+.node.core:hover rect{stroke-width:3}
+.core-title{font-family:var(--display);font-size:19px;font-weight:800;fill:var(--ink);text-anchor:middle;pointer-events:none}
+.node-sub{font-family:var(--display);font-size:12.5px;fill:var(--muted);text-anchor:middle;pointer-events:none}
+.node.sel .core-title,.node.sel .node-sub{fill:var(--mark-ink)}
+.node.ghost rect{fill:var(--paper);stroke-width:1.3;stroke-dasharray:5 3}
+.node.ghost:hover rect{stroke-width:2.2}
+.node.ghost .node-title{font-size:13px;font-weight:600}
+.ext-head{font-family:var(--display);font-size:11px;font-weight:700;letter-spacing:.08em;fill:var(--muted);text-anchor:middle}
+.edge.agg{stroke:var(--muted)}
+.edge-g.sel .edge.agg,.edge-g:focus-visible .edge.agg,.edge-g:hover .edge.agg{stroke:var(--accent)}
+.subhead{font-family:var(--display);font-size:12.5px;font-weight:700;color:var(--muted);margin-top:14px}
+.conn.area .to{font-size:17px}
+.conn.area .lbl{font-size:13.5px}
+.conn.sub{padding-left:18px}
+.conn.sub .to{font-size:14.5px;font-weight:600}
+@media (max-width:880px){.crumbs{padding:9px 16px}}
+.node-meta.why{font-size:10.5px}
